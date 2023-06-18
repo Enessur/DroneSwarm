@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97743d9814bd888429753fa6db50f2ea, type: 3}
+  m_Name: Drone
+  m_EditorClassIdentifier: 
+  chaseSpeed: 20
+  followSpeed: 20
+  damage: 3
+  patrolRange: 20
+  droneAttackRange: 1
