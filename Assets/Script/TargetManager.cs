@@ -6,11 +6,12 @@ namespace Script
     public class TargetManager : Singleton<TargetManager>
     {
         public List<DroneAI> droneAI = new();
-        public List<Transform> enemyTransforms = new();
+        public List<TestEnemy> enemyTransforms = new();
         public List<DroneStation> droneStations = new();
+
         
         public DroneStation closestStation;
-        public GameObject closestEnemy;
+        public TestEnemy closestEnemy;
         private float detectionDistance = 100f;
         private Vector3 _offset;
         private float _currentDistance;
@@ -34,12 +35,12 @@ namespace Script
             droneAI.Remove(ds);
         }
     
-        public void AddEnemy(Transform tr)
+        public void AddEnemy(TestEnemy tr)
         {
             enemyTransforms.Add(tr);
         }
 
-        public void RemoveEnemy(Transform tr)
+        public void RemoveEnemy(TestEnemy tr)
         {
             enemyTransforms.Remove(tr);
         
@@ -47,7 +48,7 @@ namespace Script
    
 
 
-        public Transform FindClosestTarget(Vector3 swordPosition)
+        public TestEnemy FindClosestTarget(Vector3 enemyPosition)
         {
             if (enemyTransforms.Count != 0)
             {
@@ -55,20 +56,20 @@ namespace Script
                 foreach (var t in enemyTransforms)
                 {
                     {
-                        _offset = swordPosition - t.gameObject.transform.position;
+                        _offset = enemyPosition - t.gameObject.transform.position;
                         _currentDistance = Vector3.Magnitude(_offset);
 
                         if (_closestDistance > _currentDistance)
                         {
                             _closestDistance = _currentDistance;
-                            closestEnemy = t.gameObject;
+                            closestEnemy = t;
                         }
                     }
                 }
 
                 if (_closestDistance < detectionDistance)
                 {
-                    return closestEnemy.transform;
+                    return closestEnemy;
                 }
 
                 //todo: game over ! 
@@ -84,6 +85,9 @@ namespace Script
             if (droneStations.Count != 0)
             {
                 _closestDistance = 100000f;
+                
+                //TODO : We will change this to Job System.
+                
                 foreach (var t in droneStations)
                 {
                     {

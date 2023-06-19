@@ -1,3 +1,4 @@
+using System;
 using Script;
 using UnityEngine;
 
@@ -14,9 +15,23 @@ public class DroneAI : MonoBehaviour
     [SerializeField] private DroneScriptableObject item;
     [SerializeField] private LayerMask whatIsEnemies;
     [SerializeField] private TaskCycleDrone taskCycleDrone;
-
+    [SerializeField] private Rigidbody _rb;
+    [SerializeField] private float _rotateSpeed;
+    
+    //Prediction
+    [SerializeField] private float _maxDistancePredict = 100f;
+    [SerializeField] private float _minDistancePredict = 5f;
+    [SerializeField] private float _maxTimePrediction = 5f;
+    private Vector3 _standartPrediction, _deviatedPrediction ;
+    
+    //Prediction
+    [SerializeField] private float _deviationAmount = 50;
+    [SerializeField] private float _deviationSpeed = 2;
+    
+    
+    
     private float _findStationRange = 1f;
-    private Transform _enemyTarget;
+    private TestEnemy _enemyTarget;
     private DroneStation _motherShipStation;
     private Transform _droneStationTransform;
     private DroneStation _currentStation;
@@ -30,16 +45,16 @@ public class DroneAI : MonoBehaviour
     {
         FindEnemy();
         FindEmptyStation();
-        float distance = Vector2.Distance(_enemyTarget.position ,transform.position);
+       // float distance = Vector2.Distance(_enemyTarget.transform.position ,transform.position);
 
         if (_enemyTarget is not null)
         {
-            if ((Vector2.Distance(_enemyTarget.position, _droneStationTransform.position) < item.patrolRange)
-                && (Vector2.Distance(_enemyTarget.position, _droneStationTransform.position) < item.droneAttackRange))
+            if ((Vector2.Distance(_enemyTarget.transform.position, _droneStationTransform.position) < item.patrolRange)
+                && (Vector2.Distance(_enemyTarget.transform.position, _droneStationTransform.position) < item.droneAttackRange))
             {
                 taskCycleDrone = TaskCycleDrone.Attack;
             }
-            else if ((Vector2.Distance(_enemyTarget.position, _droneStationTransform.position) < item.patrolRange))
+            else if ((Vector2.Distance(_enemyTarget.transform.position, _droneStationTransform.position) < item.patrolRange))
             {
                 taskCycleDrone = TaskCycleDrone.Chase;
             }
@@ -59,24 +74,48 @@ public class DroneAI : MonoBehaviour
             case TaskCycleDrone.Follow:
                 transform.position = Vector2.MoveTowards(transform.position,
                     _droneStationTransform.position, item.followSpeed * Time.deltaTime);
-                // if (Vector2.Distance(transform.position, _droneStationTransform.position) < _findStationRange)
-                // {
-                //     OnStation();
-                //     transform.position =
-                //         Vector2.MoveTowards(transform.position, _currentStation.transform.position, chaseSpeed * Time.deltaTime);
-                // }
+                _rb.velocity = transform.forward * 0;
+               
                 break;
             case TaskCycleDrone.Attack:
                 break;
             case TaskCycleDrone.Chase:
-              
-                transform.position = Vector2.MoveTowards(transform.position,
-                    _enemyTarget.position, distance/50 + (item.chaseSpeed * Time.deltaTime/50f));
+
+                _rb.velocity = transform.forward * item.chaseSpeed;
+                var leadTimePercentage = Mathf.InverseLerp(_minDistancePredict, _maxDistancePredict,
+                    Vector2.Distance(transform.position, _enemyTarget.transform.position));
+                
+                PredictMovement(leadTimePercentage);
+                Deviation(leadTimePercentage);
+                RotateDrone();
+                
+                // transform.position = Vector2.MoveTowards(transform.position,
+                //     _enemyTarget.position, distance / 50 + (item.chaseSpeed * Time.deltaTime / 50f));
                 
                 break;
         }
     }
 
+
+
+    private void Deviation(float leadTimePercentage)
+    {
+        var deviation = new Vector3(Mathf.Sin(Time.time * _deviationSpeed), 0,Mathf.Cos(Time.time * _deviationSpeed));
+        var predictionOffset = transform.TransformDirection(deviation) * _deviationAmount * leadTimePercentage;
+        _deviatedPrediction = _standartPrediction + predictionOffset;
+    }
+
+    private void RotateDrone()
+    {
+        var heading = _deviatedPrediction - transform.position;
+        var rotation = Quaternion.LookRotation(heading);
+        _rb.MoveRotation(Quaternion.RotateTowards(transform.rotation,rotation, _rotateSpeed * Time.deltaTime));
+    }
+    private void PredictMovement(float leadTimePercentage)
+    {
+        var predictionTime = Mathf.Lerp(0, _maxDistancePredict,leadTimePercentage);
+        _standartPrediction = _enemyTarget.Rb.position + _enemyTarget.Rb.velocity * predictionTime;
+    }
     public void FindEmptyStation()
     {
         _motherShipStation = TargetManager.Instance.FindClosestStation(gameObject.transform.position);
@@ -97,5 +136,15 @@ public class DroneAI : MonoBehaviour
         _motherShipStation = ds;
         _droneStationTransform = ds.transform;
         TargetManager.Instance.AddDrone(this);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position,_standartPrediction);
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(_standartPrediction,_deviatedPrediction);
+
+
     }
 }
