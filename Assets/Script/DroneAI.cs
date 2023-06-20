@@ -1,6 +1,7 @@
 using System;
 using Script;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class DroneAI : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class DroneAI : MonoBehaviour
     [SerializeField] private TaskCycleDrone taskCycleDrone;
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private float _rotateSpeed;
+
     
     //Prediction
     [SerializeField] private float _maxDistancePredict = 100f;
@@ -35,10 +37,10 @@ public class DroneAI : MonoBehaviour
     private DroneStation _motherShipStation;
     private Transform _droneStationTransform;
     private DroneStation _currentStation;
-    
-
     private void Start()
     {
+        float c = CustomMath.AddNumbers(4, 3);
+        Debug.Log(c);
     }
 
     private void FixedUpdate()
@@ -49,12 +51,12 @@ public class DroneAI : MonoBehaviour
 
         if (_enemyTarget is not null)
         {
-            if ((Vector2.Distance(_enemyTarget.transform.position, _droneStationTransform.position) < item.patrolRange)
-                && (Vector2.Distance(_enemyTarget.transform.position, _droneStationTransform.position) < item.droneAttackRange))
+            if ((Vector3.Distance(_enemyTarget.transform.position, _droneStationTransform.position) < item.patrolRange)
+                && (Vector3.Distance(_enemyTarget.transform.position, _droneStationTransform.position) < item.droneAttackRange))
             {
                 taskCycleDrone = TaskCycleDrone.Attack;
             }
-            else if ((Vector2.Distance(_enemyTarget.transform.position, _droneStationTransform.position) < item.patrolRange))
+            else if ((Vector3.Distance(_enemyTarget.transform.position, _droneStationTransform.position) < item.patrolRange))
             {
                 taskCycleDrone = TaskCycleDrone.Chase;
             }
@@ -72,7 +74,7 @@ public class DroneAI : MonoBehaviour
         switch (taskCycleDrone)
         {
             case TaskCycleDrone.Follow:
-                transform.position = Vector2.MoveTowards(transform.position,
+                transform.position = Vector3.MoveTowards(transform.position,
                     _droneStationTransform.position, item.followSpeed * Time.deltaTime);
                 _rb.velocity = transform.forward * 0;
                
@@ -81,9 +83,12 @@ public class DroneAI : MonoBehaviour
                 break;
             case TaskCycleDrone.Chase:
 
-                _rb.velocity = transform.forward * item.chaseSpeed;
+                //_rb.velocity = transform.forward * item.chaseSpeed;
+               // _rb.velocity = CustomMath.VelocityDirectionMovement( _rb ,transform.forward * item.chaseSpeed);
+               //CustomMath.VelocityDirectionMovement( _rb ,transform.forward * item.chaseSpeed);
+                _rb.ChangeVelocity(transform.forward * item.chaseSpeed);
                 var leadTimePercentage = Mathf.InverseLerp(_minDistancePredict, _maxDistancePredict,
-                    Vector2.Distance(transform.position, _enemyTarget.transform.position));
+                    Vector3.Distance(transform.position, _enemyTarget.transform.position));
                 
                 PredictMovement(leadTimePercentage);
                 Deviation(leadTimePercentage);
@@ -91,7 +96,7 @@ public class DroneAI : MonoBehaviour
                 
                 // transform.position = Vector2.MoveTowards(transform.position,
                 //     _enemyTarget.position, distance / 50 + (item.chaseSpeed * Time.deltaTime / 50f));
-                
+
                 break;
         }
     }
@@ -100,7 +105,8 @@ public class DroneAI : MonoBehaviour
 
     private void Deviation(float leadTimePercentage)
     {
-        var deviation = new Vector3(Mathf.Sin(Time.time * _deviationSpeed), 0,Mathf.Cos(Time.time * _deviationSpeed));
+        //var deviation = new Vector3(Mathf.Sin(Time.time * _deviationSpeed), 0,Mathf.Cos(Time.time * _deviationSpeed));
+        var deviation = MathUtils.DoSin(_deviationSpeed);
         var predictionOffset = transform.TransformDirection(deviation) * _deviationAmount * leadTimePercentage;
         _deviatedPrediction = _standartPrediction + predictionOffset;
     }
@@ -147,4 +153,26 @@ public class DroneAI : MonoBehaviour
 
 
     }
+}
+
+public static class MathUtils
+{
+    // public static void VelocityDirectionMovement(this Rigidbody _rigidbody, Vector3 direction)
+    // {
+    //     _rigidbody.velocity = direction + RandomizeDirectionMovement();
+    // }
+
+    public static Vector3 DoSin(float _deviationSpeed )
+    {
+        return new Vector3(Mathf.Sin(Time.time * _deviationSpeed), 0,Mathf.Cos(Time.time * _deviationSpeed));
+    }
+    // private static Vector3 RandomizeDirectionMovement()
+    // {
+    //     float x = Random.Range(5, 10);
+    //     float y = Random.Range(1, 5);
+    //     float z = Random.Range(5, 10);
+    //
+    //     return new Vector3(x,y,z);
+    // }
+
 }

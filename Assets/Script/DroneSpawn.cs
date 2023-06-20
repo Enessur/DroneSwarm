@@ -34,7 +34,7 @@ public class DroneSpawn : MonoBehaviour
 
     private void Start()
     {
-        radius = 3f;
+        radius = 5f;
         _rotationSpeed = 50f;
 
 #if UNITY_EDITOR
@@ -97,22 +97,22 @@ public class DroneSpawn : MonoBehaviour
         foreach (var t in droneStations)
         {
             t.transform
-                .RotateAround(motherShip.transform.position, Vector3.forward, _rotationSpeed * Time.deltaTime);
+                .RotateAround(motherShip.transform.position, Vector3.up, _rotationSpeed * Time.deltaTime);
         }
     }
 
     private Vector3 GetSpawnPosition()
     {
         Vector3 spawnPosition = transform.position;
-        spawnPosition.z += radius; // Z vektörü üzerinde spawn pozisyonunu güncelle
+        spawnPosition.y += radius; // Z vektörü üzerinde spawn pozisyonunu güncelle
         return spawnPosition;
     }
 
     private Vector3 GetCirclePosition(float angle)
     {
         float x = Mathf.Sin(Mathf.Deg2Rad * angle) * radius;
-        float y = Mathf.Cos(Mathf.Deg2Rad * angle) * radius;
-        return motherShip.transform.position + new Vector3(x, y, 0f);
+        float z = Mathf.Cos(Mathf.Deg2Rad * angle) * radius;
+        return motherShip.transform.position + new Vector3(x, 0f, z);
     }
 
     public void LogInputs()

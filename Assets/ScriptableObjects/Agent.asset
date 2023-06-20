@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c932e9f67ed2d7c44862e4e91f0f5845, type: 3}
   m_Name: Agent
   m_EditorClassIdentifier: 
-  chaseSpeed: 0
-  followSpeed: 7
+  chaseSpeed: 10
+  followSpeed: 10
