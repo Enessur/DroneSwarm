@@ -8,5 +8,6 @@ namespace Script
         public float chaseSpeed;
         public float followSpeed;
         
+
     }
 }

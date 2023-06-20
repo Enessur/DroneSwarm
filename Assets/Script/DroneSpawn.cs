@@ -104,7 +104,7 @@ public class DroneSpawn : MonoBehaviour
     private Vector3 GetSpawnPosition()
     {
         Vector3 spawnPosition = transform.position;
-        spawnPosition.y += radius; // Z vektörü üzerinde spawn pozisyonunu güncelle
+        spawnPosition.z += radius; // Z vektörü üzerinde spawn pozisyonunu güncelle
         return spawnPosition;
     }
 

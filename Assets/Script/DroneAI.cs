@@ -1,5 +1,7 @@
 using System;
+using System.Security.Cryptography;
 using Script;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -29,9 +31,11 @@ public class DroneAI : MonoBehaviour
     //Prediction
     [SerializeField] private float _deviationAmount = 50;
     [SerializeField] private float _deviationSpeed = 2;
-    
-    
-    
+
+
+    private float timer= 0;
+    private float instance= 2f;
+    private float y;
     private float _findStationRange = 1f;
     private TestEnemy _enemyTarget;
     private DroneStation _motherShipStation;
@@ -87,6 +91,9 @@ public class DroneAI : MonoBehaviour
                // _rb.velocity = CustomMath.VelocityDirectionMovement( _rb ,transform.forward * item.chaseSpeed);
                //CustomMath.VelocityDirectionMovement( _rb ,transform.forward * item.chaseSpeed);
                 _rb.ChangeVelocity(transform.forward * item.chaseSpeed);
+
+                _rb.velocity += RandomizeDirectionMovement();
+                
                 var leadTimePercentage = Mathf.InverseLerp(_minDistancePredict, _maxDistancePredict,
                     Vector3.Distance(transform.position, _enemyTarget.transform.position));
                 
@@ -153,9 +160,23 @@ public class DroneAI : MonoBehaviour
 
 
     }
+    public  Vector3 RandomizeDirectionMovement()
+    {
+
+        timer += Time.deltaTime;
+        if (timer>= instance)
+        {
+         y = Random.Range(-10, 10);
+         timer = 0f;
+        }
+       // float x = Random.Range(5, 10);
+        //float z = Random.Range(5, 10);
+    
+        return new Vector3(0,y,0);
+    }
 }
 
-public static class MathUtils
+public static class MathUtils 
 {
     // public static void VelocityDirectionMovement(this Rigidbody _rigidbody, Vector3 direction)
     // {
@@ -166,13 +187,6 @@ public static class MathUtils
     {
         return new Vector3(Mathf.Sin(Time.time * _deviationSpeed), 0,Mathf.Cos(Time.time * _deviationSpeed));
     }
-    // private static Vector3 RandomizeDirectionMovement()
-    // {
-    //     float x = Random.Range(5, 10);
-    //     float y = Random.Range(1, 5);
-    //     float z = Random.Range(5, 10);
-    //
-    //     return new Vector3(x,y,z);
-    // }
+  
 
 }
