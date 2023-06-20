@@ -164,9 +164,9 @@ MonoBehaviour:
   _rb: {fileID: 2437586333623775101}
   _rotateSpeed: 180
   _maxDistancePredict: 100
-  _minDistancePredict: 0
-  _maxTimePrediction: 5
-  _deviationAmount: 10
+  _minDistancePredict: 5
+  _maxTimePrediction: 1
+  _deviationAmount: 50
   _deviationSpeed: 2
 --- !u!54 &2437586333623775101
 Rigidbody:

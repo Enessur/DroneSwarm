@@ -35,7 +35,7 @@ public class DroneAI : MonoBehaviour
 
     private float timer= 0;
     private float instance= 2f;
-    private float y;
+    private float x,y,z;
     private float _findStationRange = 1f;
     private TestEnemy _enemyTarget;
     private DroneStation _motherShipStation;
@@ -166,13 +166,15 @@ public class DroneAI : MonoBehaviour
         timer += Time.deltaTime;
         if (timer>= instance)
         {
-         y = Random.Range(-10, 10);
+            x = Random.Range(-3, 3);
+            z = Random.Range(-3, 3);
+            y = Random.Range(-10, 10);
          timer = 0f;
         }
        // float x = Random.Range(5, 10);
         //float z = Random.Range(5, 10);
     
-        return new Vector3(0,y,0);
+        return new Vector3(x,y,z);
     }
 }
 
