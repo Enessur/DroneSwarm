@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2437586333623775101}
   - component: {fileID: 6322170485059431274}
   - component: {fileID: 2549459916334681678}
+  - component: {fileID: -5934354196541800738}
   m_Layer: 0
   m_Name: Drone
   m_TagString: Drone
@@ -234,3 +235,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!135 &-5934354196541800738
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4821337549154312305}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.89500016
+  m_Center: {x: 0.05450005, y: -0.335, z: -0.39500004}

@@ -30,7 +30,7 @@ public class EnemyBehaviour : MonoBehaviour
         private float _patrolTimer;
         
         
-        private void Start()
+        protected virtual void Start()
         {
             BoxCollider squareCollider = patrolBorders.GetComponent<BoxCollider>();
             
@@ -46,12 +46,12 @@ public class EnemyBehaviour : MonoBehaviour
             moveSpot.SetParent(null);
             patrolBorders.transform.parent = null;
             TargetManager.Instance.AddEnemy(this);
-          
+          SetValues();
         }
 
         protected virtual void Update()
         {
-            if (Vector3.Distance(transform.position, _target.position) < item.GetChasingDistance())
+            if (Vector3.Distance(transform.position, _target.position) < item.chasingDistance)
             {
                 taskCycleEnemy = TaskCycleEnemy.Chase;
             }
@@ -65,13 +65,13 @@ public class EnemyBehaviour : MonoBehaviour
             {
                 case TaskCycleEnemy.Chase:
                     transform.position =
-                        Vector3.MoveTowards(transform.position, _target.position, item.GetChaseSpeed() * Time.deltaTime);
+                        Vector3.MoveTowards(transform.position, _target.position, item.chaseSpeed * Time.deltaTime);
                     break;
                 case TaskCycleEnemy.Patrol:
                     PatrolPosition();
                     transform.position =
                         transform.position =
-                            Vector3.MoveTowards(transform.position, _patrolPos, item.GetPatrolSpeed() * Time.deltaTime);
+                            Vector3.MoveTowards(transform.position, _patrolPos, item.patrolSpeed * Time.deltaTime);
                     moveSpot.position = _patrolPos;
                   
                     break;
@@ -89,7 +89,7 @@ public class EnemyBehaviour : MonoBehaviour
             _patrolTimer = 0;
 
             transform.position = 
-                Vector3.MoveTowards(transform.position, _patrolPos, item.GetPatrolSpeed() * Time.deltaTime);
+                Vector3.MoveTowards(transform.position, _patrolPos, item.patrolSpeed * Time.deltaTime);
 
             if (transform.position == (Vector3)_patrolPos)
             {
@@ -97,6 +97,39 @@ public class EnemyBehaviour : MonoBehaviour
             }
         }
 
+         
+
+        protected virtual void SetValues()
+        {
+            item.chaseSpeed = 10;
+            item.patrolSpeed = 20;
+            item.chasingDistance = 10;
+            item.attackDistance = 2;
+            item.health = 200;
+            item.damage = 12;
+            Debug.Log("base patrol speed : "+item.patrolSpeed);
+        }
+
+
+        private void OnTriggerEnter(Collider col)
+        {
+            if (col.CompareTag("Drone"))
+            {
+                TakeDamage();
+            }
+        }
+
+        private void TakeDamage()
+        {
+            item.health -= 5;
+            if (item.health < 1 )
+            {
+                TargetManager.Instance.RemoveEnemy(this);
+                Destroy(this.gameObject);
+            }
+
+            Debug.Log("damage taken remaining health:"+item.health);
+        }
         // protected virtual void SpeedUp(float value)
         // {
         //     item.patrolSpeed += value;

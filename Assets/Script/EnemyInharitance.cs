@@ -8,10 +8,23 @@ public class EnemyInharitance : EnemyBehaviour
      {
           Teleport,
      }
-
+     [SerializeField] private NewEnemyTypeScriptable item2;
      [SerializeField] private Inharitance ınh;
      private float tp = 2f;
 
+     private void Start()
+     {
+          base.Start();
+          SetValues();
+     }
+     protected  override void SetValues()
+     {
+          base.SetValues();
+          item2.patrolSpeed = 100;
+          Debug.Log("inharite patrol speed : "+item2.patrolSpeed);
+     }
+
+    
      protected override void Update()
      {
           base.Update();
@@ -28,4 +41,5 @@ public class EnemyInharitance : EnemyBehaviour
                     break;
           }
      }
+     
 }
