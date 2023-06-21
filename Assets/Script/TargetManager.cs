@@ -6,12 +6,12 @@ namespace Script
     public class TargetManager : Singleton<TargetManager>
     {
         public List<DroneAI> droneAI = new();
-        public List<TestEnemy> enemyTransforms = new();
+        public List<EnemyBehaviour> enemyTransforms = new();
         public List<DroneStation> droneStations = new();
 
         
         public DroneStation closestStation;
-        public TestEnemy closestEnemy;
+        public EnemyBehaviour closestEnemy;
         private float detectionDistance = 100f;
         private Vector3 _offset;
         private float _currentDistance;
@@ -35,12 +35,12 @@ namespace Script
             droneAI.Remove(ds);
         }
     
-        public void AddEnemy(TestEnemy tr)
+        public void AddEnemy(EnemyBehaviour tr)
         {
             enemyTransforms.Add(tr);
         }
 
-        public void RemoveEnemy(TestEnemy tr)
+        public void RemoveEnemy(EnemyBehaviour tr)
         {
             enemyTransforms.Remove(tr);
         
@@ -48,7 +48,7 @@ namespace Script
    
 
 
-        public TestEnemy FindClosestTarget(Vector3 enemyPosition)
+        public EnemyBehaviour FindClosestTarget(Vector3 enemyPosition)
         {
             if (enemyTransforms.Count != 0)
             {

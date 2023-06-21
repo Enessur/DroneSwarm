@@ -14,14 +14,7 @@ public class TestEnemy : MonoBehaviour
     
     void Start()
     {
-        TargetManager.Instance.AddEnemy(this);
+      //  TargetManager.Instance.AddEnemy(this);
     }
-    
-    // Update is called once per frame
-    void Update()
-    {
-        // var dir = new Vector3(Mathf.Cos(Time.time * _speed) * _size, Mathf.Sin(Time.time * _speed) * _size);
-        // _rb.velocity = dir;
 
-    }
 }

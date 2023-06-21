@@ -37,7 +37,7 @@ public class DroneAI : MonoBehaviour
     private float instance= 2f;
     private float x,y,z;
     private float _findStationRange = 1f;
-    private TestEnemy _enemyTarget;
+    private EnemyBehaviour _enemyTarget;
     private DroneStation _motherShipStation;
     private Transform _droneStationTransform;
     private DroneStation _currentStation;
