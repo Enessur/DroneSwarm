@@ -9,6 +9,20 @@ public class EnemyScriptableObject : ScriptableObject
  public float damage;
  public  float chasingDistance;
  public float attackDistance;
- public LayerMask whatIsPlayer;
+[SerializeField] private LayerMask whatIsPlayer;
 
+public LayerMask WhatIsPlayerWtf => whatIsPlayer;
+
+
+ public void SetValue(EnemyScriptableObject copy)
+ {
+     health = copy.health;
+     chaseSpeed = copy.chaseSpeed;
+     patrolSpeed = copy.patrolSpeed;
+     damage = copy.damage;
+     chasingDistance = copy.chasingDistance;
+     attackDistance = copy.attackDistance;
+     whatIsPlayer = copy.WhatIsPlayerWtf;
+ }
+ 
 }

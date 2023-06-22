@@ -4,42 +4,42 @@ using UnityEngine;
 
 public class EnemyInharitance : EnemyBehaviour
 {
-     public enum Inharitance
-     {
-          Teleport,
-     }
-     [SerializeField] private NewEnemyTypeScriptable item2;
-     [SerializeField] private Inharitance ınh;
-     private float tp = 2f;
+    public enum Inharitance
+    {
+        Teleport,
+        None
+    }
 
-     private void Start()
-     {
-          base.Start();
-          SetValues();
-     }
-     protected  override void SetValues()
-     {
-          base.SetValues();
-          item2.patrolSpeed = 100;
-          Debug.Log("inharite patrol speed : "+item2.patrolSpeed);
-     }
+    [SerializeField] private Inharitance ınh = Inharitance.None;
+    private float tp = 2f;
 
-    
-     protected override void Update()
-     {
-          base.Update();
 
-          if (Vector3.Distance(transform.position, _target.position) < tp)
-          {
-               ınh = Inharitance.Teleport;
-          }
-          
-          switch (ınh)
-          {
-               case Inharitance.Teleport:
-                
-                    break;
-          }
-     }
-     
+    protected override void Start()
+    {
+        base.Start();
+        m_enemyDataInstance.patrolSpeed = 50;
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        if (Vector3.Distance(transform.position, _target.position) < tp)
+        {
+            ınh = Inharitance.Teleport;
+        }
+        else
+        {
+            ınh = Inharitance.None;
+        }
+
+        switch (ınh)
+        {
+            case Inharitance.Teleport:
+                Debug.Log("aksjfhasd");
+                break;
+            case Inharitance.None:
+                break;
+        }
+    }
 }

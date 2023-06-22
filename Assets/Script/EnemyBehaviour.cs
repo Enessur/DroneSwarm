@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Script;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class EnemyBehaviour : MonoBehaviour
@@ -15,10 +16,11 @@ public class EnemyBehaviour : MonoBehaviour
             Patrol
         }
 
-        [SerializeField] protected EnemyScriptableObject item;
+        [SerializeField] protected EnemyScriptableObject m_EnemyData;
         [SerializeField] protected TaskCycleEnemy taskCycleEnemy;
         [SerializeField] private float xMin, yMin, xMax, yMax,zMin,zMax;
         [SerializeField] private float startWaitTime = 1f;
+
         public List<EnemyBehaviour> enemyTransforms = new();
         public Rigidbody Rb => _rb;
         public GameObject patrolBorders;
@@ -28,8 +30,16 @@ public class EnemyBehaviour : MonoBehaviour
         protected int _currentHealth;
         private Vector3 _patrolPos;
         private float _patrolTimer;
-        
-        
+        protected EnemyScriptableObject m_enemyDataInstance;
+
+        private void Awake()
+        {
+            m_enemyDataInstance = ScriptableObject.CreateInstance<EnemyScriptableObject>();
+            
+            m_enemyDataInstance.SetValue(m_EnemyData);
+            Debug.Log(m_enemyDataInstance.attackDistance);
+        }
+
         protected virtual void Start()
         {
             BoxCollider squareCollider = patrolBorders.GetComponent<BoxCollider>();
@@ -46,12 +56,11 @@ public class EnemyBehaviour : MonoBehaviour
             moveSpot.SetParent(null);
             patrolBorders.transform.parent = null;
             TargetManager.Instance.AddEnemy(this);
-          SetValues();
         }
 
         protected virtual void Update()
         {
-            if (Vector3.Distance(transform.position, _target.position) < item.chasingDistance)
+            if (Vector3.Distance(transform.position, _target.position) < m_enemyDataInstance.chasingDistance)
             {
                 taskCycleEnemy = TaskCycleEnemy.Chase;
             }
@@ -65,13 +74,13 @@ public class EnemyBehaviour : MonoBehaviour
             {
                 case TaskCycleEnemy.Chase:
                     transform.position =
-                        Vector3.MoveTowards(transform.position, _target.position, item.chaseSpeed * Time.deltaTime);
+                        Vector3.MoveTowards(transform.position, _target.position, m_enemyDataInstance.chaseSpeed * Time.deltaTime);
                     break;
                 case TaskCycleEnemy.Patrol:
                     PatrolPosition();
                     transform.position =
                         transform.position =
-                            Vector3.MoveTowards(transform.position, _patrolPos, item.patrolSpeed * Time.deltaTime);
+                            Vector3.MoveTowards(transform.position, _patrolPos, m_enemyDataInstance.patrolSpeed * Time.deltaTime);
                     moveSpot.position = _patrolPos;
                   
                     break;
@@ -89,25 +98,12 @@ public class EnemyBehaviour : MonoBehaviour
             _patrolTimer = 0;
 
             transform.position = 
-                Vector3.MoveTowards(transform.position, _patrolPos, item.patrolSpeed * Time.deltaTime);
+                Vector3.MoveTowards(transform.position, _patrolPos, m_enemyDataInstance.patrolSpeed * Time.deltaTime);
 
             if (transform.position == (Vector3)_patrolPos)
             {
                 _patrolPos = new Vector3(Random.Range(xMin, xMax), Random.Range(yMin, yMax), Random.Range(zMin, zMax));
             }
-        }
-
-         
-
-        protected virtual void SetValues()
-        {
-            item.chaseSpeed = 10;
-            item.patrolSpeed = 20;
-            item.chasingDistance = 10;
-            item.attackDistance = 2;
-            item.health = 200;
-            item.damage = 12;
-            Debug.Log("base patrol speed : "+item.patrolSpeed);
         }
 
 
@@ -121,14 +117,13 @@ public class EnemyBehaviour : MonoBehaviour
 
         private void TakeDamage()
         {
-            item.health -= 5;
-            if (item.health < 1 )
+            m_enemyDataInstance.health -= 5;
+            if (m_enemyDataInstance.health < 1 )
             {
                 TargetManager.Instance.RemoveEnemy(this);
+                DestroyImmediate(m_enemyDataInstance);
                 Destroy(this.gameObject);
             }
-
-            Debug.Log("damage taken remaining health:"+item.health);
         }
         // protected virtual void SpeedUp(float value)
         // {

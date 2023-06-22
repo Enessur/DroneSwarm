@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc631c3bb1ea79b438753cd03472d80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
+  m_EnemyData: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
   taskCycleEnemy: 0
   xMin: 0
   yMin: 0
@@ -466,7 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc631c3bb1ea79b438753cd03472d80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
+  m_EnemyData: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
   taskCycleEnemy: 0
   xMin: 0
   yMin: 0
@@ -990,7 +990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc631c3bb1ea79b438753cd03472d80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
+  m_EnemyData: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
   taskCycleEnemy: 0
   xMin: 0
   yMin: 0
@@ -1052,7 +1052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc631c3bb1ea79b438753cd03472d80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
+  m_EnemyData: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
   taskCycleEnemy: 0
   xMin: 0
   yMin: 0
@@ -1288,7 +1288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc631c3bb1ea79b438753cd03472d80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
+  m_EnemyData: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
   taskCycleEnemy: 0
   xMin: 0
   yMin: 0
@@ -1630,7 +1630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc631c3bb1ea79b438753cd03472d80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
+  m_EnemyData: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
   taskCycleEnemy: 0
   xMin: 0
   yMin: 0
@@ -1771,7 +1771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc631c3bb1ea79b438753cd03472d80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
+  m_EnemyData: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
   taskCycleEnemy: 0
   xMin: 0
   yMin: 0
@@ -2027,7 +2027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc631c3bb1ea79b438753cd03472d80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
+  m_EnemyData: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
   taskCycleEnemy: 0
   xMin: 0
   yMin: 0
@@ -2213,7 +2213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc631c3bb1ea79b438753cd03472d80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
+  m_EnemyData: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
   taskCycleEnemy: 0
   xMin: 0
   yMin: 0
@@ -2568,7 +2568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc631c3bb1ea79b438753cd03472d80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
+  m_EnemyData: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
   taskCycleEnemy: 0
   xMin: 0
   yMin: 0
@@ -2861,7 +2861,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc631c3bb1ea79b438753cd03472d80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
+  m_EnemyData: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
   taskCycleEnemy: 0
   xMin: 0
   yMin: 0
@@ -3002,7 +3002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc631c3bb1ea79b438753cd03472d80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
+  m_EnemyData: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
   taskCycleEnemy: 0
   xMin: 0
   yMin: 0
@@ -3126,7 +3126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a99ee744f43f504d942ff7e7d8740c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
+  m_EnemyData: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
   taskCycleEnemy: 0
   xMin: 0
   yMin: 0
@@ -3138,7 +3138,6 @@ MonoBehaviour:
   enemyTransforms: []
   patrolBorders: {fileID: 1140399550}
   moveSpot: {fileID: 1698715084}
-  item2: {fileID: 11400000, guid: e824ac073c7ef4f4eaea6593553cc6d8, type: 2}
   "\u0131nh": 0
 --- !u!54 &1878712718
 Rigidbody:
@@ -3286,7 +3285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc631c3bb1ea79b438753cd03472d80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
+  m_EnemyData: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
   taskCycleEnemy: 0
   xMin: 0
   yMin: 0
@@ -3533,7 +3532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc631c3bb1ea79b438753cd03472d80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
+  m_EnemyData: {fileID: 11400000, guid: 5db37d2d1d662554c80071b1157d6b53, type: 2}
   taskCycleEnemy: 0
   xMin: 0
   yMin: 0
