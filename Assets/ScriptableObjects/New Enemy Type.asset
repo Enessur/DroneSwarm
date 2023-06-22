@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 20
   chaseSpeed: 20
-  patrolSpeed: 20
+  patrolSpeed: 600
   damage: 20
   chasingDistance: 20
   attackDistance: 20

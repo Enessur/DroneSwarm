@@ -9,15 +9,18 @@ public class EnemyInharitance : EnemyBehaviour
         Teleport,
         None
     }
-
+    [SerializeField] private NewEnemyTypeScriptable newEnemyType;
     [SerializeField] private Inharitance ınh = Inharitance.None;
     private float tp = 2f;
-
-
+    
+    
     protected override void Start()
     {
         base.Start();
-        m_enemyDataInstance.patrolSpeed = 50;
+        
+      m_enemyDataInstance.SetValue(newEnemyType);
+        
+      //  m_enemyDataInstance.patrolSpeed = 50;
     }
 
     protected override void Update()

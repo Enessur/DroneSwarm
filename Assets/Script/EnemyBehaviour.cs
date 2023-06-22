@@ -32,12 +32,13 @@ public class EnemyBehaviour : MonoBehaviour
         private float _patrolTimer;
         protected EnemyScriptableObject m_enemyDataInstance;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             m_enemyDataInstance = ScriptableObject.CreateInstance<EnemyScriptableObject>();
             
             m_enemyDataInstance.SetValue(m_EnemyData);
             Debug.Log(m_enemyDataInstance.attackDistance);
+            
         }
 
         protected virtual void Start()
@@ -58,6 +59,7 @@ public class EnemyBehaviour : MonoBehaviour
             TargetManager.Instance.AddEnemy(this);
         }
 
+        
         protected virtual void Update()
         {
             if (Vector3.Distance(transform.position, _target.position) < m_enemyDataInstance.chasingDistance)

@@ -3138,6 +3138,7 @@ MonoBehaviour:
   enemyTransforms: []
   patrolBorders: {fileID: 1140399550}
   moveSpot: {fileID: 1698715084}
+  newEnemyType: {fileID: 11400000, guid: e824ac073c7ef4f4eaea6593553cc6d8, type: 2}
   "\u0131nh": 0
 --- !u!54 &1878712718
 Rigidbody:
