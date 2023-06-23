@@ -246,6 +246,7 @@ MonoBehaviour:
   taskCycleDrone: 0
   _rb: {fileID: 2437586333623775101}
   _rotateSpeed: 180
+  _followRotateSpeed: 360
   _maxDistancePredict: 100
   _minDistancePredict: 5
   _maxTimePrediction: 1

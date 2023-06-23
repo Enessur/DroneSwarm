@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class DroneAI : MonoBehaviour
 {
+   
     public enum TaskCycleDrone
     {
         Chase,
@@ -14,7 +15,7 @@ public class DroneAI : MonoBehaviour
         Follow,
     }
 
-
+    [SerializeField] private DroneMovementManager _droneMovementManager;
     [SerializeField] private DroneScriptableObject item;
     [SerializeField] private LayerMask whatIsEnemies;
     [SerializeField] private TaskCycleDrone taskCycleDrone;
@@ -49,12 +50,12 @@ public class DroneAI : MonoBehaviour
         previousPosition = transform.position;
     }
 
-    private void FixedUpdate()
-    {
-        DroneMovement();
-    }
+    // public void FixedUpdate()
+    // {
+    //     DroneMovement();
+    // }
 
-    private void DroneMovement()
+    public void DroneMovement()
     {
         FindEnemy();
         FindEmptyStation();
@@ -138,7 +139,7 @@ public class DroneAI : MonoBehaviour
             Vector3 heading = currentVelocity.normalized;
             Quaternion desiredRotation = Quaternion.LookRotation(heading, transform.up);
             targetRotation = Quaternion.Slerp(targetRotation, desiredRotation, _rotateSpeed * Time.deltaTime);
-            _rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, targetRotation, _rotateSpeed * Time.deltaTime));
+            _rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, targetRotation, (_rotateSpeed * 1.5f) * Time.deltaTime));
         }
     }
     private void PredictMovement(float leadTimePercentage)
@@ -165,6 +166,7 @@ public class DroneAI : MonoBehaviour
     {
         _motherShipStation = ds;
         _droneStationTransform = ds.transform;
+        
         TargetManager.Instance.AddDrone(this);
     }
 

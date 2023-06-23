@@ -30,11 +30,11 @@ public class DroneSpawn : MonoBehaviour
     [SerializeField] private List<InputGroup> inputGroups;
     public float radius;
     private float _rotationSpeed;
-
+    private DroneMovementManager m_droneMovementManager;
 
     private void Start()
     {
-        radius = 5f;
+        m_droneMovementManager = GetComponent<DroneMovementManager>();
         _rotationSpeed = 50f;
 
 #if UNITY_EDITOR
@@ -84,12 +84,14 @@ public class DroneSpawn : MonoBehaviour
         droneStations.Add(ds);
         ds.transform.SetParent(motherShip.transform);
         float angleIncrement = 360f / droneStations.Count;
+        
         for (int i = 0; i < droneStations.Count; i++)
         {
             float angle = i * angleIncrement;
             Vector3 newPosition = GetCirclePosition(angle);
             droneStations[i].transform.position = newPosition;
         }
+        m_droneMovementManager.AddDrone(dr);
     }
 
     private void RotateObjects()
