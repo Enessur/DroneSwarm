@@ -7,6 +7,8 @@ TagManager:
   - Drone
   - Empty
   - Enemy
+  - Collectable
+  - Detection
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - UI
   - Enemy
   - Player
-  - 
+  - Collectable
   - 
   - 
   - 

@@ -3,16 +3,18 @@ using System.Security.Cryptography;
 using Script;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class DroneAI : MonoBehaviour
 {
-   
     public enum TaskCycleDrone
     {
         Chase,
         Attack,
         Follow,
+        GatherResource,
+        Collect
     }
 
     [SerializeField] private DroneMovementManager _droneMovementManager;
@@ -22,27 +24,36 @@ public class DroneAI : MonoBehaviour
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private float _rotateSpeed;
 
-    
+
     //Prediction
     [SerializeField] private float _maxDistancePredict = 100f;
     [SerializeField] private float _minDistancePredict = 5f;
     [SerializeField] private float _maxTimePrediction = 5f;
-    private Vector3 _standartPrediction, _deviatedPrediction ;
-    
+    [SerializeField] private float collectRange = 1f;
+
+    private Vector3 _standartPrediction, _deviatedPrediction;
+
     //Prediction
     [SerializeField] private float _deviationAmount = 50;
     [SerializeField] private float _deviationSpeed = 2;
-    
+
     private Quaternion targetRotation;
     private Vector3 previousPosition;
-    private float timer= 0;
-    private float instance= 2f;
-    private float x,y,z;
+    private float timer = 0;
+    private float collectTimer = 5f;
+    private float instance = 2f;
+    private float x, y, z;
     private float _findStationRange = 1f;
     private EnemyBehaviour _enemyTarget;
     private DroneStation _motherShipStation;
     private Transform _droneStationTransform;
     private DroneStation _currentStation;
+    private Collectable _collectable;
+
+    [FormerlySerializedAs("_isCollecting")] [SerializeField]
+    private bool _isStorageFull;
+
+
     private void Start()
     {
         float c = CustomMath.AddNumbers(4, 3);
@@ -50,18 +61,14 @@ public class DroneAI : MonoBehaviour
         previousPosition = transform.position;
     }
 
-    // public void FixedUpdate()
-    // {
-    //     DroneMovement();
-    // }
 
     public void DroneMovement()
     {
         FindEnemy();
         FindEmptyStation();
+       // FindCollectable();
 
-
-        if (_enemyTarget is not null)
+        if ((_enemyTarget != null))
         {
             if ((Vector3.Distance(_enemyTarget.transform.position, _droneStationTransform.position) < item.patrolRange)
                 && (Vector3.Distance(_enemyTarget.transform.position, _droneStationTransform.position) <
@@ -69,6 +76,7 @@ public class DroneAI : MonoBehaviour
             {
                 taskCycleDrone = TaskCycleDrone.Attack;
             }
+
             else if ((Vector3.Distance(_enemyTarget.transform.position, _droneStationTransform.position) <
                       item.patrolRange))
             {
@@ -79,6 +87,7 @@ public class DroneAI : MonoBehaviour
                 taskCycleDrone = TaskCycleDrone.Follow;
             }
         }
+
         else
         {
             taskCycleDrone = TaskCycleDrone.Follow;
@@ -88,14 +97,22 @@ public class DroneAI : MonoBehaviour
         switch (taskCycleDrone)
         {
             case TaskCycleDrone.Follow:
-                transform.position = Vector3.MoveTowards(transform.position,
-                    _droneStationTransform.position, item.followSpeed * Time.deltaTime);
-                _rb.velocity = transform.forward * 0;
-
+                Follow();
                 RotateDroneOnFollow();
                 break;
+
             case TaskCycleDrone.Attack:
                 break;
+
+            case TaskCycleDrone.GatherResource:
+                Collect();
+                RotateDroneOnFollow();
+                break;
+
+            // case TaskCycleDrone.Collect:
+            //     break;
+            
+            
             case TaskCycleDrone.Chase:
 
                 _rb.ChangeVelocity(transform.forward * item.chaseSpeed);
@@ -126,35 +143,58 @@ public class DroneAI : MonoBehaviour
     {
         var heading = _deviatedPrediction - transform.position;
         var rotation = Quaternion.LookRotation(heading);
-        _rb.MoveRotation(Quaternion.RotateTowards(transform.rotation,rotation, _rotateSpeed * Time.deltaTime));
+        _rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, _rotateSpeed * Time.deltaTime));
     }
-    
+
+    private void Follow()
+    {
+        transform.position = Vector3.MoveTowards(transform.position,
+            _droneStationTransform.position, item.followSpeed * Time.deltaTime);
+        _rb.velocity = transform.forward * 0;
+
+        if (Vector3.Distance(transform.position, _droneStationTransform.position) < 0.4f)
+        {
+            timer += Time.deltaTime;
+            if (timer >= instance)
+            {
+                 _isStorageFull = false;
+                 timer = 0f;
+            }
+        }
+        
+            
+        
+    }
+
     private void RotateDroneOnFollow()
     {
         Vector3 currentVelocity = (transform.position - previousPosition) / Time.deltaTime;
         previousPosition = transform.position;
-        
+
         if (currentVelocity != Vector3.zero)
         {
             Vector3 heading = currentVelocity.normalized;
             Quaternion desiredRotation = Quaternion.LookRotation(heading, transform.up);
             targetRotation = Quaternion.Slerp(targetRotation, desiredRotation, _rotateSpeed * Time.deltaTime);
-            _rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, targetRotation, (_rotateSpeed * 1.5f) * Time.deltaTime));
+            _rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, targetRotation,
+                (_rotateSpeed * 1.5f) * Time.deltaTime));
         }
     }
+
     private void PredictMovement(float leadTimePercentage)
     {
-        var predictionTime = Mathf.Lerp(0, _maxDistancePredict,leadTimePercentage);
+        var predictionTime = Mathf.Lerp(0, _maxDistancePredict, leadTimePercentage);
         _standartPrediction = _enemyTarget.Rb.position + _enemyTarget.Rb.velocity * predictionTime;
     }
+
     public void FindEmptyStation()
     {
         _motherShipStation = TargetManager.Instance.FindClosestStation(gameObject.transform.position);
     }
 
-    private void OnStation()
+    public void FindCollectable()
     {
-        _currentStation = _motherShipStation;
+        _collectable = TargetManager.Instance.FindCollectable(gameObject.transform.position);
     }
 
     public void FindEnemy()
@@ -162,40 +202,80 @@ public class DroneAI : MonoBehaviour
         _enemyTarget = TargetManager.Instance.FindClosestTarget(gameObject.transform.position);
     }
 
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     if (CompareTag("Collectable"))
+    //     {
+    //         _isStorageFull = true;
+    //     }
+    // }
+    //
+    // private void OnTriggerExit(Collider other)
+    // {
+    //     if (CompareTag("Collectable"))
+    //     {
+    //         _isStorageFull = false;
+    //     }
+    // }
+
+    public void Collect()
+    {
+        if (Vector3.Distance(transform.position, _collectable.transform.position) > collectRange)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, _collectable.transform.position,
+                item.followSpeed * Time.deltaTime);
+            _rb.velocity = transform.forward * 0;
+        }
+        else
+        {
+            timer += Time.deltaTime;
+            if (timer >= collectTimer)
+            {
+                _isStorageFull = true;
+                timer = 0;
+            }
+        }
+    }
+
+
     public void Init(DroneStation ds)
     {
         _motherShipStation = ds;
         _droneStationTransform = ds.transform;
-        
+
         TargetManager.Instance.AddDrone(this);
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position,_standartPrediction);
+        var position = transform.position;
+        Gizmos.DrawLine(position, _standartPrediction);
+        // Gizmos.color = Color.blue;
+        // Gizmos.DrawLine(position, _collectable.transform.position);
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(_standartPrediction,_deviatedPrediction);
+        Gizmos.DrawLine(_standartPrediction, _deviatedPrediction);
     }
-    public  Vector3 RandomizeDirectionMovement()
-    {
 
+    public Vector3 RandomizeDirectionMovement()
+    {
         timer += Time.deltaTime;
-        if (timer>= instance)
+        if (timer >= instance)
         {
             x = Random.Range(-3, 3);
             z = Random.Range(-3, 3);
             y = Random.Range(-10, 10);
-         timer = 0f;
+            timer = 0f;
         }
-        return new Vector3(x,y,z);
+
+        return new Vector3(x, y, z);
     }
 }
 
-public static class MathUtils 
+public static class MathUtils
 {
-    public static Vector3 DoSin(float _deviationSpeed )
+    public static Vector3 DoSin(float _deviationSpeed)
     {
-        return new Vector3(Mathf.Sin(Time.time * _deviationSpeed), 0,Mathf.Cos(Time.time * _deviationSpeed));
+        return new Vector3(Mathf.Sin(Time.time * _deviationSpeed), 0, Mathf.Cos(Time.time * _deviationSpeed));
     }
 }

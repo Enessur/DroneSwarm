@@ -8,16 +8,28 @@ namespace Script
         public List<DroneAI> droneAI = new();
         public List<EnemyBehaviour> enemyTransforms = new();
         public List<DroneStation> droneStations = new();
+        public List<Collectable> collectable = new();
 
-        
         public DroneStation closestStation;
         public EnemyBehaviour closestEnemy;
-        private float detectionDistance = 100f;
+        public Collectable closestCollectable;
+        private float detectionDistance = 30f;
         private Vector3 _offset;
         private float _currentDistance;
         private float _closestDistance;
-    
 
+
+        public void AddCollectable(Collectable cl)
+        {
+            collectable.Add(cl);
+        }
+
+        public void RemoveCollectable(Collectable cl)
+        {
+            collectable.Remove(cl);
+        }
+        
+        
         public void AddDroneStation(DroneStation ds)
         {
             droneStations.Add(ds);
@@ -52,7 +64,7 @@ namespace Script
         {
             if (enemyTransforms.Count != 0)
             {
-                _closestDistance = 100000f;
+                _closestDistance = 30f;
                 foreach (var t in enemyTransforms)
                 {
                     {
@@ -70,6 +82,38 @@ namespace Script
                 if (_closestDistance < detectionDistance)
                 {
                     return closestEnemy;
+                }
+
+                //todo: game over ! 
+            
+                return null;
+            }
+
+            return null;
+        }
+        
+        public Collectable FindCollectable(Vector3 collectablePosition)
+        {
+            if (collectable.Count != 0)
+            {
+                _closestDistance = 100000f;
+                foreach (var t in collectable)
+                {
+                    {
+                        _offset = collectablePosition - t.gameObject.transform.position;
+                        _currentDistance = Vector3.Magnitude(_offset);
+
+                        if (_closestDistance > _currentDistance)
+                        {
+                            _closestDistance = _currentDistance;
+                            closestCollectable = t;
+                        }
+                    }
+                }
+
+                if (_closestDistance < detectionDistance)
+                {
+                    return closestCollectable;
                 }
 
                 //todo: game over ! 

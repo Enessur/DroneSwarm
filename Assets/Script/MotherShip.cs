@@ -1,39 +1,32 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MotherShip : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 60f;
-    private Vector3 _moveDir;
-    private Rigidbody _rb;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        _rb = GetComponent<Rigidbody>();
-    }
+    [SerializeField] private float rotateSpeed = 100f;
+    public Rigidbody rb;
+    public Transform childObject;
 
-    // Update is called once per frame
-    void Update()
+    private Quaternion targetRotation;
+
+    private void Start()
     {
-      
-      
+        rb = GetComponent<Rigidbody>();
+        targetRotation = childObject.rotation;
     }
 
     private void FixedUpdate()
     {
-        HandleControl();
-    }
-
-    private void HandleControl()
-    {
         float hAxis = Input.GetAxis("Horizontal");
         float vAxis = Input.GetAxis("Vertical");
 
-        Vector3 movement = new Vector3(hAxis, 0, vAxis) * moveSpeed * Time.deltaTime;
-        _rb.MovePosition(transform.position+movement);
+        Vector3 movement = new Vector3(hAxis, 0, vAxis) * moveSpeed * Time.fixedDeltaTime;
+        rb.MovePosition(transform.position + movement);
 
+        if (movement != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(movement.normalized, Vector3.up);
+            childObject.rotation = Quaternion.RotateTowards(childObject.rotation, targetRotation, rotateSpeed * Time.fixedDeltaTime);
+        }
     }
 }
