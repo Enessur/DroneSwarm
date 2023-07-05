@@ -8,16 +8,6 @@ using Random = UnityEngine.Random;
 
 public class DroneAI : MonoBehaviour
 {
-    public enum TaskCycleDrone
-    {
-        Chase,
-        Attack,
-        Follow,
-        GatherResource,
-        Collect
-    }
-
-
     public DroneBaseState currentState;
     public DroneFollowState FollowState = new DroneFollowState();
     public DroneChaseState ChaseState = new DroneChaseState();
@@ -27,15 +17,14 @@ public class DroneAI : MonoBehaviour
     public DroneScriptableObject item;
     [SerializeField] private DroneMovementManager _droneMovementManager;
     [SerializeField] private LayerMask whatIsEnemies;
-    [SerializeField] private TaskCycleDrone taskCycleDrone;
     [SerializeField] private float _rotateSpeed;
 
 
     //Prediction
     public float _maxDistancePredict = 100f;
     public float _minDistancePredict = 5f;
+    public float collectRange = 1f;
     [SerializeField] private float _maxTimePrediction = 5f;
-    [SerializeField] private float collectRange = 1f;
 
     private Vector3 _standartPrediction, _deviatedPrediction;
 
@@ -45,20 +34,20 @@ public class DroneAI : MonoBehaviour
 
     private Quaternion targetRotation;
     private Vector3 previousPosition;
-    private float timer = 0;
-    private float collectTimer = 5f;
-    private float instance = 2f;
+    public float timer = 0;
+    public float collectTimer = 5f;
+    public float instance = 2f;
     private float x, y, z;
     private float _findStationRange = 1f;
     public EnemyBehaviour _enemyTarget;
     private DroneStation _motherShipStation;
     public Transform _droneStationTransform;
     private DroneStation _currentStation;
-    private Collectable _collectable;
+    public Collectable _collectable;
 
     [FormerlySerializedAs("_isCollecting")] [SerializeField]
-    private bool _isStorageFull;
-
+    public bool _isStorageFull;
+    
 
     private void Start()
     {
@@ -70,73 +59,49 @@ public class DroneAI : MonoBehaviour
     }
 
 
+    public void StateManager()
+    {
+        if (_enemyTarget is not null)
+        {
+            if ((Vector3.Distance(_enemyTarget.transform.position, _droneStationTransform.position) <
+                 item.patrolRange))
+            {
+                if (currentState != ChaseState)
+                {
+                    SwitchState(ChaseState);
+                }
+            }
+
+            // if ((Vector3.Distance(_collectable.transform.position, _droneStationTransform.position) < item.patrolRange))
+            // {
+            //    
+            //         SwitchState(CollectState);
+            //   
+            // }
+            else
+            {
+                if (currentState != FollowState)
+                {
+                    SwitchState(FollowState);
+                }
+            }
+        }
+        else
+        {
+            if (currentState != FollowState)
+            {
+                SwitchState(FollowState);
+            }
+        }
+    }
+
     public void DroneMovement()
     {
         FindEnemy();
         FindEmptyStation();
-        // FindCollectable();
+        StateManager();
+        FindCollectable();
         currentState.UpdateState(this);
-
-        // if ((_enemyTarget != null))
-        // {
-        //     if ((Vector3.Distance(_enemyTarget.transform.position, _droneStationTransform.position) < item.patrolRange)
-        //         && (Vector3.Distance(_enemyTarget.transform.position, _droneStationTransform.position) <
-        //             item.droneAttackRange))
-        //     {
-        //         taskCycleDrone = TaskCycleDrone.Attack;
-        //     }
-        //
-        //     else if ((Vector3.Distance(_enemyTarget.transform.position, _droneStationTransform.position) <
-        //               item.patrolRange))
-        //     {
-        //         taskCycleDrone = TaskCycleDrone.Chase;
-        //     }
-        //     else
-        //     {
-        //         taskCycleDrone = TaskCycleDrone.Follow;
-        //     }
-        // }
-        //
-        // else
-        // {
-        //     taskCycleDrone = TaskCycleDrone.Follow;
-        // }
-        //
-        //
-        // switch (taskCycleDrone)
-        // {
-        //     case TaskCycleDrone.Follow:
-        //         // Follow();
-        //         // RotateDroneOnFollow();
-        //         break;
-        //
-        //     case TaskCycleDrone.Attack:
-        //         break;
-        //
-        //     case TaskCycleDrone.GatherResource:
-        //         Collect();
-        //         RotateDroneOnFollow();
-        //         break;
-        //
-        //     case TaskCycleDrone.Collect:
-        //         break;
-        //
-        //
-        //     case TaskCycleDrone.Chase:
-        //
-        //         _rb.ChangeVelocity(transform.forward * item.chaseSpeed);
-        //         
-        //         _rb.velocity += RandomizeDirectionMovement();
-        //         
-        //         var leadTimePercentage = Mathf.InverseLerp(_minDistancePredict, _maxDistancePredict,
-        //             Vector3.Distance(transform.position, _enemyTarget.transform.position));
-        //         
-        //         PredictMovement(leadTimePercentage);
-        //         Deviation(leadTimePercentage);
-        //         RotateDrone();
-        //
-        //         break;
-        // }
     }
 
     public void SwitchState(DroneBaseState state)
@@ -160,23 +125,6 @@ public class DroneAI : MonoBehaviour
         var rotation = Quaternion.LookRotation(heading);
         _rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, _rotateSpeed * Time.deltaTime));
     }
-
-    // private void Follow()
-    // {
-    //     transform.position = Vector3.MoveTowards(transform.position,
-    //         _droneStationTransform.position, item.followSpeed * Time.deltaTime);
-    //     _rb.velocity = transform.forward * 0;
-    //
-    //     if (Vector3.Distance(transform.position, _droneStationTransform.position) < 0.4f)
-    //     {
-    //         timer += Time.deltaTime;
-    //         if (timer >= instance)
-    //         {
-    //             _isStorageFull = false;
-    //             timer = 0f;
-    //         }
-    //     }
-    // }
 
     public void RotateDroneOnFollow()
     {
@@ -212,26 +160,15 @@ public class DroneAI : MonoBehaviour
     public void FindEnemy()
     {
         _enemyTarget = TargetManager.Instance.FindClosestTarget(gameObject.transform.position);
+        // if (Vector3.Distance(transform.position , _enemyTarget.transform.position)  > item.patrolRange)
+        // {
+        //     _enemyTarget = null;
+        // }
     }
-    
+
 
     public void Collect()
     {
-        if (Vector3.Distance(transform.position, _collectable.transform.position) > collectRange)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, _collectable.transform.position,
-                item.followSpeed * Time.deltaTime);
-            _rb.velocity = transform.forward * 0;
-        }
-        else
-        {
-            timer += Time.deltaTime;
-            if (timer >= collectTimer)
-            {
-                _isStorageFull = true;
-                timer = 0;
-            }
-        }
     }
 
 

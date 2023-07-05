@@ -7,9 +7,10 @@ using UnityEngine;
 
 public class DroneMovementManager : MonoBehaviour
 {
-   
-    public List<DroneAI> newDrone;
 
+    public CollisionTest collisionTest;
+    public List<DroneAI> newDrone;
+    
 
     public void AddDrone(DroneAI dr)
     {
@@ -17,9 +18,11 @@ public class DroneMovementManager : MonoBehaviour
     }
     
     
+    
     private void FixedUpdate()
     {
         DroneBehaviour();
+        
     }
 
     private void DroneBehaviour()
