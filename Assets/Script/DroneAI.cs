@@ -51,48 +51,34 @@ public class DroneAI : MonoBehaviour
 
     private void Start()
     {
-        float c = CustomMath.AddNumbers(4, 3);
-        Debug.Log(c);
+       
         previousPosition = transform.position;
         currentState = FollowState;
         currentState.EnterState(this);
+        _collectable = TargetManager.Instance.FindCollectable(gameObject.transform.position);
+         
     }
 
 
     public void StateManager()
     {
-        if (_enemyTarget is not null)
+        
+        if (_enemyTarget != null)
         {
-            if ((Vector3.Distance(_enemyTarget.transform.position, _droneStationTransform.position) <
-                 item.patrolRange))
+            if (Vector3.Distance(_enemyTarget.transform.position, _droneStationTransform.position) < item.patrolRange)
             {
-                if (currentState != ChaseState)
-                {
-                    SwitchState(ChaseState);
-                }
+                SwitchState(ChaseState);
+                return;
             }
+        }
 
-            // if ((Vector3.Distance(_collectable.transform.position, _droneStationTransform.position) < item.patrolRange))
-            // {
-            //    
-            //         SwitchState(CollectState);
-            //   
-            // }
-            else
-            {
-                if (currentState != FollowState)
-                {
-                    SwitchState(FollowState);
-                }
-            }
-        }
-        else
+        if (_collectable != null && Vector3.Distance(_collectable.transform.position, _droneStationTransform.position) < item.patrolRange)
         {
-            if (currentState != FollowState)
-            {
-                SwitchState(FollowState);
-            }
+            SwitchState(CollectState);
+            return;
         }
+
+        SwitchState(FollowState);
     }
 
     public void DroneMovement()
