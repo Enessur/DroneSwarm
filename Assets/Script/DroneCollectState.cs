@@ -6,25 +6,37 @@ public class DroneCollectState : DroneBaseState
 {
     public override void EnterState(DroneAI droneAI)
     {
-       Debug.Log("collect");
+        Debug.Log("collect");
     }
 
     public override void UpdateState(DroneAI droneAI)
     {
-        if (Vector3.Distance(droneAI.transform.position, droneAI._collectable.transform.position) > droneAI.collectRange)
+        if (Vector3.Distance(droneAI.transform.position, droneAI._collectable.transform.position) >
+            droneAI.collectRange)
         {
-            droneAI.transform.position = Vector3.MoveTowards( droneAI.transform.position,  droneAI._collectable.transform.position,
+            droneAI.transform.position = Vector3.MoveTowards(droneAI.transform.position,
+                droneAI._collectable.transform.position,
                 droneAI.item.followSpeed * Time.deltaTime);
-            droneAI._rb.velocity =  droneAI.transform.forward * 0;
+            droneAI._rb.velocity = droneAI.transform.forward * 0;
         }
         else
         {
             droneAI.timer += Time.deltaTime;
-            if ( droneAI.timer >=  droneAI.collectTimer)
+            if (droneAI._isStorageFull != true)
             {
-                 droneAI._isStorageFull = true;
-                droneAI.timer = 0;
+                if (droneAI.timer >= droneAI.collectTimer)
+                {
+                    droneAI._collectable.Take();
+                    droneAI.AddToStorage();
+                    droneAI.timer = 0;
+                }
             }
         }
+
+        droneAI.RotateDroneOnFollow();
+    }
+
+    public void Harvest()
+    {
     }
 }

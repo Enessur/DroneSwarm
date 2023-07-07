@@ -1,12 +1,16 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class MotherShip : MonoBehaviour
+public class MotherShip : Script.Singleton<MotherShip>
 {
     [SerializeField] private float moveSpeed = 60f;
     [SerializeField] private float rotateSpeed = 100f;
     public Rigidbody rb;
     public Transform childObject;
-
+    [SerializeField] private int _maxHeld =2000;
+    [SerializeField] private int _gathered;
+    public bool isMotherShipStorageFull;
     private Quaternion targetRotation;
 
     private void Start()
@@ -15,8 +19,24 @@ public class MotherShip : MonoBehaviour
         targetRotation = childObject.rotation;
     }
 
+    public void AddResource(int addResource)
+    {
+        _gathered += addResource;
+        if (_gathered >= _maxHeld)
+        {
+            isMotherShipStorageFull = true;
+        }
+        else
+        {
+            isMotherShipStorageFull = false;
+        }
+    }
+
+
     private void FixedUpdate()
     {
+
+        
         float hAxis = Input.GetAxis("Horizontal");
         float vAxis = Input.GetAxis("Vertical");
 

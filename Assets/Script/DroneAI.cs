@@ -23,7 +23,8 @@ public class DroneAI : MonoBehaviour
     //Prediction
     public float _maxDistancePredict = 100f;
     public float _minDistancePredict = 5f;
-    public float collectRange = 1f;
+    public float collectRange = 3f;
+     public int Stored = 0;
     [SerializeField] private float _maxTimePrediction = 5f;
 
     private Vector3 _standartPrediction, _deviatedPrediction;
@@ -34,8 +35,11 @@ public class DroneAI : MonoBehaviour
 
     private Quaternion targetRotation;
     private Vector3 previousPosition;
+    [SerializeField] private  int storageCapacity = 20;
+    
+    private int _storageLimit;
     public float timer = 0;
-    public float collectTimer = 5f;
+    public float collectTimer = 1f;
     public float instance = 2f;
     private float x, y, z;
     private float _findStationRange = 1f;
@@ -47,38 +51,47 @@ public class DroneAI : MonoBehaviour
 
     [FormerlySerializedAs("_isCollecting")] [SerializeField]
     public bool _isStorageFull;
-    
+
 
     private void Start()
     {
-       
         previousPosition = transform.position;
         currentState = FollowState;
         currentState.EnterState(this);
         _collectable = TargetManager.Instance.FindCollectable(gameObject.transform.position);
-         
     }
 
 
     public void StateManager()
     {
-        
         if (_enemyTarget != null)
         {
             if (Vector3.Distance(_enemyTarget.transform.position, _droneStationTransform.position) < item.patrolRange)
             {
-                SwitchState(ChaseState);
+                if (currentState != ChaseState)
+                {
+                    SwitchState(ChaseState);
+                }
+
                 return;
             }
         }
 
-        if (_collectable != null && Vector3.Distance(_collectable.transform.position, _droneStationTransform.position) < item.patrolRange)
+        if (_collectable != null && _isStorageFull != true &&
+            Vector3.Distance(_collectable.transform.position, _droneStationTransform.position) < item.patrolRange)
         {
-            SwitchState(CollectState);
+            if (currentState != CollectState)
+            {
+                SwitchState(CollectState);
+            }
+
             return;
         }
 
-        SwitchState(FollowState);
+        if (currentState != FollowState)
+        {
+            SwitchState(FollowState);
+        }
     }
 
     public void DroneMovement()
@@ -87,6 +100,7 @@ public class DroneAI : MonoBehaviour
         FindEmptyStation();
         StateManager();
         FindCollectable();
+        
         currentState.UpdateState(this);
     }
 
@@ -152,11 +166,23 @@ public class DroneAI : MonoBehaviour
         // }
     }
 
-
-    public void Collect()
+    public void AddToStorage()
     {
+        Stored++;
+        Debug.Log("in storage"+ Stored);
+        if (Stored >= storageCapacity)
+        {
+            _isStorageFull = true;
+            
+        }
     }
 
+    public void SendCollectables()
+    {
+        MotherShip.Instance.AddResource(Stored);
+    }
+
+   
 
     public void Init(DroneStation ds)
     {
