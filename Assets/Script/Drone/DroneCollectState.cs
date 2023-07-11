@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DroneCollectState : DroneBaseState
+public class DroneCollectState : IState
 {
-    public override void EnterState(DroneAI droneAI)
-    {
-    }
+    private DroneAI droneAI;
 
-    public override void UpdateState(DroneAI droneAI)
+    public void Tick(DroneAI droneAI)
     {
         if (Vector3.Distance(droneAI.transform.position, droneAI._collectable.transform.position) >
             droneAI.collectRange)
@@ -32,10 +30,13 @@ public class DroneCollectState : DroneBaseState
             }
         }
 
-        droneAI.RotateDroneOnFollow();
+        droneAI.RotateDroneOnFollow();    }
+
+    public void OnEnter()
+    {
     }
 
-    public void Harvest()
+    public void OnExit()
     {
     }
 }

@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DroneFollowState : DroneBaseState
+public class DroneFollowState : IState
 {
-    public override void EnterState(DroneAI droneAI)
-    {
-    }
-
-    public override void UpdateState(DroneAI droneAI)
+    
+    
+    
+    public void Tick (DroneAI droneAI)
     {
         droneAI.transform.position = Vector3.MoveTowards(droneAI.transform.position,
             droneAI._droneStationTransform.position, droneAI.item.followSpeed * Time.deltaTime);
@@ -26,5 +25,14 @@ public class DroneFollowState : DroneBaseState
                 droneAI.timer = 0f;
             }
         }
+    }
+    
+
+    public void OnEnter()
+    {
+    }
+
+    public void OnExit()
+    {
     }
 }
