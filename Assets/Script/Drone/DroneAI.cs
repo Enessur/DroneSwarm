@@ -8,19 +8,13 @@ using Random = UnityEngine.Random;
 
 public class DroneAI : MonoBehaviour
 {
-    public DroneBaseState currentState;
-    public DroneFollowState FollowState = new DroneFollowState();
-    public DroneChaseState ChaseState = new DroneChaseState();
-    public DroneCollectState CollectState = new DroneCollectState();
-
     public Rigidbody _rb;
     public DroneScriptableObject item;
-    
     public float _maxDistancePredict = 100f;
     public float _minDistancePredict = 5f;
     public float collectRange = 3f;
     public int Stored = 0;
-    public float timer = 0;
+    public float timer { get; set; }= 0;
     public float collectTimer = 1f;
     public float instance = 2f;
     public Collectable _collectable;
@@ -31,8 +25,7 @@ public class DroneAI : MonoBehaviour
     private int _storageLimit;
     private Vector3 _standartPrediction, _deviatedPrediction;
     // [SerializeField] private float _maxTimePrediction = 5f;
-
-
+    
     //Prediction
     [SerializeField] private DroneMovementManager _droneMovementManager;
     [SerializeField] private LayerMask whatIsEnemies;
@@ -51,15 +44,14 @@ public class DroneAI : MonoBehaviour
 
     private void Awake()
     {
-
         _stateMachine = new StateMachine();
 
         var chase = new DroneChaseState();
         var follow = new DroneFollowState();
         var collect = new DroneCollectState();
-
-    
+        
         At(follow,chase,HasTarget());
+        At(collect,chase, HasTarget());
         At(follow, collect, HasCollectable()); 
         At(chase,follow,HasNoTarget());
         At(collect,follow,HasNoCollectable());
@@ -76,61 +68,25 @@ public class DroneAI : MonoBehaviour
                                                  _droneStationTransform.position)
                                              < item.patrolRange;
         Func<bool> HasNoTarget() => () => _enemyTarget == null;
-        Func<bool> HasNoCollectable() => () => _collectable == null;
+        Func<bool> HasNoCollectable() => () =>( _collectable == null || _isStorageFull == true) || Vector3.Distance(_collectable.transform.position,
+                _droneStationTransform.position)
+            > item.patrolRange;
+       
     }
-
     private void Start()
     {
         previousPosition = transform.position;
-        // currentState.EnterState(this);
         _collectable = TargetManager.Instance.FindCollectable(gameObject.transform.position);
     }
-
-
-    // public void StateManager()
-    // {
-    //     if (_enemyTarget != null && Vector3.Distance(_enemyTarget.transform.position, _droneStationTransform.position) < item.patrolRange && currentState != ChaseState)
-    //     {
-    //         SwitchState(ChaseState);
-    //         return;
-    //     }
-    //
-    //     if (_collectable != null && _isStorageFull != true &&
-    //         Vector3.Distance(_collectable.transform.position, _droneStationTransform.position) < item.patrolRange)
-    //     {
-    //         if (currentState != CollectState)
-    //         {
-    //             SwitchState(CollectState);
-    //         }
-    //
-    //         return;
-    //     }
-    //
-    //     if (currentState != FollowState)
-    //     {
-    //         SwitchState(FollowState);
-    //     }
-    // }
-
+    
     public void DroneMovement()
     {
         _stateMachine.Tick(this);
         FindEnemy();
         FindEmptyStation();
-        // StateManager();
         FindCollectable();
-        
-        
-        
-        // currentState.UpdateState(this);
+     
     }
-
-    public void SwitchState(DroneBaseState state)
-    {
-        currentState = state;
-        state.EnterState(this);
-    }
-
 
     public void Deviation(float leadTimePercentage)
     {

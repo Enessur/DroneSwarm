@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class DroneChaseState : IState
 {
-    private DroneAI droneAI;
     
 
     public void Tick(DroneAI droneAI)

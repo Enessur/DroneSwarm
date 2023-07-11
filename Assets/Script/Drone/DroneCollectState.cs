@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DroneCollectState : IState
 {
-    private DroneAI droneAI;
 
     public void Tick(DroneAI droneAI)
     {
