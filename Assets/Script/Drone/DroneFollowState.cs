@@ -6,7 +6,6 @@ public class DroneFollowState : DroneBaseState
 {
     public override void EnterState(DroneAI droneAI)
     {
-        DebugManager.CommonDebug("Follow");
     }
 
     public override void UpdateState(DroneAI droneAI)

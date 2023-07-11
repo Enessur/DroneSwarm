@@ -25,7 +25,7 @@ public class DroneAI : MonoBehaviour
     public float _minDistancePredict = 5f;
     public float collectRange = 3f;
      public int Stored = 0;
-    [SerializeField] private float _maxTimePrediction = 5f;
+    // [SerializeField] private float _maxTimePrediction = 5f;
 
     private Vector3 _standartPrediction, _deviatedPrediction;
 
@@ -42,7 +42,7 @@ public class DroneAI : MonoBehaviour
     public float collectTimer = 1f;
     public float instance = 2f;
     private float x, y, z;
-    private float _findStationRange = 1f;
+    // private float _findStationRange = 1f;
     public EnemyBehaviour _enemyTarget;
     private DroneStation _motherShipStation;
     public Transform _droneStationTransform;
@@ -113,7 +113,6 @@ public class DroneAI : MonoBehaviour
 
     public void Deviation(float leadTimePercentage)
     {
-        //var deviation = new Vector3(Mathf.Sin(Time.time * _deviationSpeed), 0,Mathf.Cos(Time.time * _deviationSpeed));
         var deviation = MathUtils.DoSin(_deviationSpeed);
         var predictionOffset = transform.TransformDirection(deviation) * _deviationAmount * leadTimePercentage;
         _deviatedPrediction = _standartPrediction + predictionOffset;
@@ -160,16 +159,12 @@ public class DroneAI : MonoBehaviour
     public void FindEnemy()
     {
         _enemyTarget = TargetManager.Instance.FindClosestTarget(gameObject.transform.position);
-        // if (Vector3.Distance(transform.position , _enemyTarget.transform.position)  > item.patrolRange)
-        // {
-        //     _enemyTarget = null;
-        // }
+      
     }
 
     public void AddToStorage()
     {
         Stored++;
-        Debug.Log("in storage"+ Stored);
         if (Stored >= storageCapacity)
         {
             _isStorageFull = true;

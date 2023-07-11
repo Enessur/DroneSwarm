@@ -6,7 +6,6 @@ public class DroneCollectState : DroneBaseState
 {
     public override void EnterState(DroneAI droneAI)
     {
-        Debug.Log("collect");
     }
 
     public override void UpdateState(DroneAI droneAI)

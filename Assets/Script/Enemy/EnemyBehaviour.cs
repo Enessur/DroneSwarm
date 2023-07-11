@@ -36,7 +36,6 @@ public class EnemyBehaviour : MonoBehaviour
         m_enemyDataInstance = ScriptableObject.CreateInstance<EnemyScriptableObject>();
 
         m_enemyDataInstance.SetValue(m_EnemyData);
-        Debug.Log(m_enemyDataInstance.attackDistance);
     }
 
     protected virtual void Start()

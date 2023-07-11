@@ -7,7 +7,6 @@ public class DroneChaseState : DroneBaseState
 {
     public override void EnterState(DroneAI droneAI)
     {
-        Debug.Log("Chase");
     }
 
     public override void UpdateState(DroneAI droneAI)

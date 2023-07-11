@@ -124,6 +124,5 @@ public class DroneSpawn : MonoBehaviour
         {
             logString += inputGroup.key + " -> " + inputGroup.info+"\n";
         }
-        Debug.Log(logString);
     }
 }

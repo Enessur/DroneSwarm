@@ -7,7 +7,6 @@ public class DroneStation : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(transform);
         station = GameObject.FindGameObjectWithTag("Empty");
     }
 
@@ -19,7 +18,6 @@ public class DroneStation : MonoBehaviour
     {
         if (col.CompareTag("Drone"))
         {
-            Debug.Log("This Station is Full!");
             station.tag = "Full";
         }
     }

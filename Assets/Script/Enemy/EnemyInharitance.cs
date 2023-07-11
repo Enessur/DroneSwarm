@@ -20,7 +20,6 @@ public class EnemyInharitance : EnemyBehaviour
         
       m_enemyDataInstance.SetValue(newEnemyType);
         
-      //  m_enemyDataInstance.patrolSpeed = 50;
     }
 
     protected override void Update()
@@ -39,7 +38,6 @@ public class EnemyInharitance : EnemyBehaviour
         switch (ınh)
         {
             case Inharitance.Teleport:
-                Debug.Log("aksjfhasd");
                 break;
             case Inharitance.None:
                 break;

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
-    // Start is called before the first frame update
     
     [SerializeField] private int _totalAvailable = 200;
     private int _available;
@@ -49,11 +48,5 @@ public class Collectable : MonoBehaviour
         TargetManager.Instance.AddCollectable(this);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-   
 
 }
