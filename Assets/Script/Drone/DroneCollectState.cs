@@ -8,7 +8,7 @@ public class DroneCollectState : IState
     public void Tick(DroneAI droneAI)
     {
         if (Vector3.Distance(droneAI.transform.position, droneAI._collectable.transform.position) >
-            droneAI.collectRange)
+            droneAI.data.collectRange)
         {
             droneAI.transform.position = Vector3.MoveTowards(droneAI.transform.position,
                 droneAI._collectable.transform.position,

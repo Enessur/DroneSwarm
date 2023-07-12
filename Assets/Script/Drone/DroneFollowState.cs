@@ -17,7 +17,7 @@ public class DroneFollowState : IState
         if (Vector3.Distance(droneAI.transform.position, droneAI._droneStationTransform.position) < 0.4f)
         {
             droneAI.timer += Time.deltaTime;
-            if (droneAI.timer >= droneAI.instance)
+            if (droneAI.timer >= droneAI.data.instance)
             { 
                 droneAI.SendCollectables();
                 droneAI._isStorageFull = false;

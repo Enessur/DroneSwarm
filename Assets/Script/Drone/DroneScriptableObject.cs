@@ -8,5 +8,8 @@ namespace Script
         public int damage;
         public int patrolRange;
         public int droneAttackRange;
+        
+        
+       
     }
 }

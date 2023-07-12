@@ -12,7 +12,7 @@ public class DroneChaseState : IState
         droneAI._rb.ChangeVelocity(droneAI.transform.forward * droneAI.item.chaseSpeed);
         droneAI._rb.velocity += droneAI.RandomizeDirectionMovement();
 
-        var leadTimePercentage = Mathf.InverseLerp(droneAI._minDistancePredict, droneAI._maxDistancePredict,
+        var leadTimePercentage = Mathf.InverseLerp(droneAI.data.minDistancePredict, droneAI.data.maxDistancePredict,
             Vector3.Distance(droneAI.transform.position, droneAI._enemyTarget.transform.position));
 
         droneAI.PredictMovement(leadTimePercentage);

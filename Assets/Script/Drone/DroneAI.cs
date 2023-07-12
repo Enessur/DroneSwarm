@@ -1,5 +1,6 @@
 using System;
 using System.Security.Cryptography;
+using Drone;
 using Script;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -10,29 +11,24 @@ public class DroneAI : MonoBehaviour
 {
     public Rigidbody _rb;
     public DroneScriptableObject item;
-    public float _maxDistancePredict = 100f;
-    public float _minDistancePredict = 5f;
-    public float collectRange = 3f;
-    public int Stored = 0;
-    public float timer { get; set; }= 0;
-    public float collectTimer = 1f;
-    public float instance = 2f;
+    public DroneDataScriptable data;
     public Collectable _collectable;
     public EnemyBehaviour _enemyTarget;
     public Transform _droneStationTransform;
-    [SerializeField] public float _deviationSpeed = 2;
-    [SerializeField] public float _deviationAmount = 50;
-    private int _storageLimit;
+    public float collectTimer = 1f; // get set yapılmıyor
+    [SerializeField] private  int _storageCapacity = 20;
+
+    public float timer { get; set; }= 0;
+    public int Stored { get; set; }= 0;
+    
     private Vector3 _standartPrediction, _deviatedPrediction;
     // [SerializeField] private float _maxTimePrediction = 5f;
     
     //Prediction
     [SerializeField] private DroneMovementManager _droneMovementManager;
     [SerializeField] private LayerMask whatIsEnemies;
-    [SerializeField] private float _rotateSpeed;
     private Quaternion targetRotation;
     private Vector3 previousPosition;
-    [SerializeField] private  int storageCapacity = 20;
     private float x, y, z;
     // private float _findStationRange = 1f;
     private DroneStation _motherShipStation;
@@ -90,8 +86,8 @@ public class DroneAI : MonoBehaviour
 
     public void Deviation(float leadTimePercentage)
     {
-        var deviation = MathUtils.DoSin(_deviationSpeed);
-        var predictionOffset = transform.TransformDirection(deviation) * _deviationAmount * leadTimePercentage;
+        var deviation = MathUtils.DoSin(data.deviationSpeed);
+        var predictionOffset = transform.TransformDirection(deviation) * data.deviationAmount * leadTimePercentage;
         _deviatedPrediction = _standartPrediction + predictionOffset;
     }
 
@@ -99,7 +95,7 @@ public class DroneAI : MonoBehaviour
     {
         var heading = _deviatedPrediction - transform.position;
         var rotation = Quaternion.LookRotation(heading);
-        _rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, _rotateSpeed * Time.deltaTime));
+        _rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, data.rotateSpeed * Time.deltaTime));
     }
 
     public void RotateDroneOnFollow()
@@ -111,15 +107,15 @@ public class DroneAI : MonoBehaviour
         {
             Vector3 heading = currentVelocity.normalized;
             Quaternion desiredRotation = Quaternion.LookRotation(heading, transform.up);
-            targetRotation = Quaternion.Slerp(targetRotation, desiredRotation, _rotateSpeed * Time.deltaTime);
+            targetRotation = Quaternion.Slerp(targetRotation, desiredRotation, data.rotateSpeed * Time.deltaTime);
             _rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, targetRotation,
-                (_rotateSpeed * 1.5f) * Time.deltaTime));
+                (data.rotateSpeed * 1.5f) * Time.deltaTime));
         }
     }
 
     public void PredictMovement(float leadTimePercentage)
     {
-        var predictionTime = Mathf.Lerp(0, _maxDistancePredict, leadTimePercentage);
+        var predictionTime = Mathf.Lerp(0, data.maxDistancePredict, leadTimePercentage);
         _standartPrediction = _enemyTarget.Rb.position + _enemyTarget.Rb.velocity * predictionTime;
     }
 
@@ -142,7 +138,7 @@ public class DroneAI : MonoBehaviour
     public void AddToStorage()
     {
         Stored++;
-        if (Stored >= storageCapacity)
+        if (Stored >= _storageCapacity)
         {
             _isStorageFull = true;
             
@@ -178,7 +174,7 @@ public class DroneAI : MonoBehaviour
     public Vector3 RandomizeDirectionMovement()
     {
         timer += Time.deltaTime;
-        if (timer >= instance)
+        if (timer >= data.instance)
         {
             x = Random.Range(-3, 3);
             z = Random.Range(-3, 3);
