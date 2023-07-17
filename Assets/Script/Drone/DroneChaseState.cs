@@ -15,7 +15,7 @@ public class DroneChaseState : IState
         var leadTimePercentage = Mathf.InverseLerp(droneAI.data.minDistancePredict, droneAI.data.maxDistancePredict,
             Vector3.Distance(droneAI.transform.position, droneAI._enemyTarget.transform.position));
 
-        droneAI.PredictMovement(leadTimePercentage);
+        droneAI.PredictMovement_EnemyTarget(leadTimePercentage);
         droneAI.Deviation(leadTimePercentage);
         droneAI.RotateDrone();
     }

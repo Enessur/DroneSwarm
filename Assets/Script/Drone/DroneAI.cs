@@ -113,10 +113,22 @@ public class DroneAI : MonoBehaviour
         }
     }
 
-    public void PredictMovement(float leadTimePercentage)
+    private void PredictMovement(float leadTimePercentage, Rigidbody rigidbody)
     {
         var predictionTime = Mathf.Lerp(0, data.maxDistancePredict, leadTimePercentage);
-        _standartPrediction = _enemyTarget.Rb.position + _enemyTarget.Rb.velocity * predictionTime;
+        _standartPrediction = rigidbody.position +  rigidbody.velocity * predictionTime;
+    }
+    public void PredictMovement_EnemyTarget(float leadTimePercentage)
+    {
+        PredictMovement(leadTimePercentage,_enemyTarget.Rb);
+        // var predictionTime = Mathf.Lerp(0, data.maxDistancePredict, leadTimePercentage);
+        // _standartPrediction = _enemyTarget.Rb.position + _enemyTarget.Rb.velocity * predictionTime;
+    }
+    
+    public void PredictMovement_Collect(float leadTimePercentage)
+    {
+        var predictionTime = Mathf.Lerp(0, data.maxDistancePredict, leadTimePercentage);
+        _standartPrediction = _collectable.Rb.position + _collectable.Rb.velocity * predictionTime;
     }
 
     public void FindEmptyStation()

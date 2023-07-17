@@ -7,29 +7,40 @@ public class DroneCollectState : IState
 
     public void Tick(DroneAI droneAI)
     {
+        
+        
+        
         if (Vector3.Distance(droneAI.transform.position, droneAI._collectable.transform.position) >
             droneAI.data.collectRange)
         {
-            droneAI.transform.position = Vector3.MoveTowards(droneAI.transform.position,
-                droneAI._collectable.transform.position,
-                droneAI.item.followSpeed * Time.deltaTime);
-            droneAI._rb.velocity = droneAI.transform.forward * 0;
+            droneAI._rb.ChangeVelocity(droneAI.transform.forward * droneAI.item.chaseSpeed);
+            droneAI._rb.velocity += droneAI.RandomizeDirectionMovement();
+
+            var leadTimePercentage = Mathf.InverseLerp(droneAI.data.minDistancePredict, droneAI.data.maxDistancePredict,
+
+                Vector3.Distance(droneAI.transform.position, droneAI._collectable.transform.position));
+
+            droneAI.PredictMovement_Collect(leadTimePercentage);
+            droneAI.Deviation(leadTimePercentage);
+            droneAI.RotateDrone();
         }
         else
         {
             droneAI.timer += Time.deltaTime;
             if (droneAI._isStorageFull != true)
             {
+                droneAI._rb.velocity = droneAI.transform.forward * 0;
                 if (droneAI.timer >= droneAI.collectTimer)
                 {
                     droneAI._collectable.Take();
                     droneAI.AddToStorage();
                     droneAI.timer = 0;
+                    
                 }
             }
         }
 
-        droneAI.RotateDroneOnFollow();    }
+        droneAI.RotateDrone();    }
 
     public void OnEnter()
     {

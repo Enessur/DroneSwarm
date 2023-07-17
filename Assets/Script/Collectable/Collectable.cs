@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Script;
@@ -8,7 +9,10 @@ public class Collectable : MonoBehaviour
     
     [SerializeField] private int _totalAvailable = 200;
     private int _available;
-    
+    private Rigidbody _rb;
+    public Rigidbody Rb => _rb;
+
+
     
     private void OnEnable()
     {
@@ -46,6 +50,7 @@ public class Collectable : MonoBehaviour
     void Start()
     {
         TargetManager.Instance.AddCollectable(this);
+        _rb = GetComponent<Rigidbody>();
     }
 
 

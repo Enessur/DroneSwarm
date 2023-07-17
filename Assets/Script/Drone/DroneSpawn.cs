@@ -30,6 +30,7 @@ public class DroneSpawn : MonoBehaviour
     [SerializeField] private List<InputGroup> inputGroups;
     public float radius;
     private float _rotationSpeed;
+    private float VecY = 2f;
     private DroneMovementManager m_droneMovementManager;
 
     private void Start()
@@ -76,7 +77,7 @@ public class DroneSpawn : MonoBehaviour
     }
 
     public void SpawnStation()
-    {
+    { 
         var ds = Instantiate(droneStation, GetSpawnPosition(), Quaternion.identity);
         var dr = Instantiate(drone, GetSpawnPosition(), Quaternion.identity);
         dr.Init(ds);
@@ -84,11 +85,14 @@ public class DroneSpawn : MonoBehaviour
         droneStations.Add(ds);
         ds.transform.SetParent(motherShip.transform);
         float angleIncrement = 360f / droneStations.Count;
-        
         for (int i = 0; i < droneStations.Count; i++)
         {
             float angle = i * angleIncrement;
             Vector3 newPosition = GetCirclePosition(angle);
+            if (i %2 == 0)
+            {
+                newPosition.y = VecY;
+            }
             droneStations[i].transform.position = newPosition;
         }
         m_droneMovementManager.AddDrone(dr);
@@ -109,9 +113,10 @@ public class DroneSpawn : MonoBehaviour
         spawnPosition.z += radius; // Z vektörü üzerinde spawn pozisyonunu güncelle
         return spawnPosition;
     }
-
+    
     private Vector3 GetCirclePosition(float angle)
     {
+       
         float x = Mathf.Sin(Mathf.Deg2Rad * angle) * radius;
         float z = Mathf.Cos(Mathf.Deg2Rad * angle) * radius;
         return motherShip.transform.position + new Vector3(x, 0f, z);
