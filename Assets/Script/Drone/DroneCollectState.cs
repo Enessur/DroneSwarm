@@ -1,52 +1,53 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class DroneCollectState : IState
+namespace Drone
 {
-
-    public void Tick(DroneAI droneAI)
+    public class DroneCollectState : IState
     {
-        
-        
-        
-        if (Vector3.Distance(droneAI.transform.position, droneAI._collectable.transform.position) >
-            droneAI.data.collectRange)
+
+        public void Tick(DroneAI droneAI)
         {
-            droneAI._rb.ChangeVelocity(droneAI.transform.forward * droneAI.item.chaseSpeed);
-            droneAI._rb.velocity += droneAI.RandomizeDirectionMovement();
-
-            var leadTimePercentage = Mathf.InverseLerp(droneAI.data.minDistancePredict, droneAI.data.maxDistancePredict,
-
-                Vector3.Distance(droneAI.transform.position, droneAI._collectable.transform.position));
-
-            droneAI.PredictMovement_Collect(leadTimePercentage);
-            droneAI.Deviation(leadTimePercentage);
-            droneAI.RotateDrone();
-        }
-        else
-        {
-            droneAI.timer += Time.deltaTime;
-            if (droneAI._isStorageFull != true)
+        
+        
+        
+            if (Vector3.Distance(droneAI.transform.position, droneAI._collectable.transform.position) >
+                droneAI.data.collectRange)
             {
-                droneAI._rb.velocity = droneAI.transform.forward * 0;
-                if (droneAI.timer >= droneAI.collectTimer)
+                droneAI._rb.ChangeVelocity(droneAI.transform.forward * droneAI.item.chaseSpeed);
+                droneAI._rb.velocity += droneAI.RandomizeDirectionMovement();
+
+                var leadTimePercentage = Mathf.InverseLerp(droneAI.data.minDistancePredict, droneAI.data.maxDistancePredict,
+
+                    Vector3.Distance(droneAI.transform.position, droneAI._collectable.transform.position));
+
+                droneAI.PredictMovement_Collect(leadTimePercentage);
+                droneAI.Deviation(leadTimePercentage);
+                droneAI.RotateDrone();
+            }
+            else
+            {
+                droneAI.timer += Time.deltaTime;
+                if (droneAI._isStorageFull != true)
                 {
-                    droneAI._collectable.Take();
-                    droneAI.AddToStorage();
-                    droneAI.timer = 0;
+                    droneAI._rb.velocity = droneAI.transform.forward * 0;
+                    if (droneAI.timer >= droneAI.collectTimer)
+                    {
+                        droneAI._collectable.Take();
+                        droneAI.AddToStorage();
+                        droneAI.timer = 0;
                     
+                    }
                 }
             }
+
+            droneAI.RotateDrone();    }
+
+        public void OnEnter()
+        {
         }
 
-        droneAI.RotateDrone();    }
-
-    public void OnEnter()
-    {
-    }
-
-    public void OnExit()
-    {
+        public void OnExit()
+        {
+        }
     }
 }

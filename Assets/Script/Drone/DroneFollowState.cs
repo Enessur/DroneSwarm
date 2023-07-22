@@ -1,38 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class DroneFollowState : IState
+namespace Drone
 {
-    
-    
-    
-    public void Tick (DroneAI droneAI)
+    public class DroneFollowState : IState
     {
-        droneAI.transform.position = Vector3.MoveTowards(droneAI.transform.position,
-            droneAI._droneStationTransform.position, droneAI.item.followSpeed * Time.deltaTime);
-        droneAI._rb.velocity = droneAI.transform.forward * 0;
-        droneAI.RotateDroneOnFollow();
-
-        if (Vector3.Distance(droneAI.transform.position, droneAI._droneStationTransform.position) < 0.4f)
+        public void Tick (DroneAI droneAI)
         {
-            droneAI.timer += Time.deltaTime;
-            if (droneAI.timer >= droneAI.data.instance)
-            { 
-                droneAI.SendCollectables();
-                droneAI._isStorageFull = false;
-                droneAI.Stored = 0;
-                droneAI.timer = 0f;
+            droneAI.transform.position = Vector3.MoveTowards(droneAI.transform.position,
+                droneAI._droneStationTransform.position, droneAI.item.followSpeed * Time.deltaTime);
+            droneAI._rb.velocity = droneAI.transform.forward * 0;
+            droneAI.RotateDroneOnFollow();
+
+            if (Vector3.Distance(droneAI.transform.position, droneAI._droneStationTransform.position) < 0.4f)
+            {
+                droneAI.timer += Time.deltaTime;
+                if (droneAI.timer >= droneAI.data.instance)
+                { 
+                    droneAI.SendCollectables();
+                    droneAI._isStorageFull = false;
+                    droneAI.Stored = 0;
+                    droneAI.timer = 0f;
+                }
             }
         }
-    }
     
 
-    public void OnEnter()
-    {
-    }
+        public void OnEnter()
+        {
+        }
 
-    public void OnExit()
-    {
+        public void OnExit()
+        {
+        }
     }
 }

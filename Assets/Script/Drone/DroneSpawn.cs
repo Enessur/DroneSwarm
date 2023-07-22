@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Script;
-using UnityEditor;
+using Drone;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -40,8 +38,6 @@ public class DroneSpawn : MonoBehaviour
 
 #if UNITY_EDITOR
         LogInputs();
-#elif UNITY_2017_4_OR_NEWER
-    
 #endif
     }
 
@@ -77,7 +73,7 @@ public class DroneSpawn : MonoBehaviour
     }
 
     public void SpawnStation()
-    { 
+    {
         var ds = Instantiate(droneStation, GetSpawnPosition(), Quaternion.identity);
         var dr = Instantiate(drone, GetSpawnPosition(), Quaternion.identity);
         dr.Init(ds);
@@ -89,12 +85,9 @@ public class DroneSpawn : MonoBehaviour
         {
             float angle = i * angleIncrement;
             Vector3 newPosition = GetCirclePosition(angle);
-            if (i %2 == 0)
-            {
-                newPosition.y = VecY;
-            }
-            droneStations[i].transform.position = newPosition;
+                droneStations[i].transform.position = newPosition;
         }
+
         m_droneMovementManager.AddDrone(dr);
     }
 
@@ -113,10 +106,9 @@ public class DroneSpawn : MonoBehaviour
         spawnPosition.z += radius; // Z vektörü üzerinde spawn pozisyonunu güncelle
         return spawnPosition;
     }
-    
+
     private Vector3 GetCirclePosition(float angle)
     {
-       
         float x = Mathf.Sin(Mathf.Deg2Rad * angle) * radius;
         float z = Mathf.Cos(Mathf.Deg2Rad * angle) * radius;
         return motherShip.transform.position + new Vector3(x, 0f, z);
@@ -127,7 +119,7 @@ public class DroneSpawn : MonoBehaviour
         string logString = "";
         foreach (var inputGroup in inputGroups)
         {
-            logString += inputGroup.key + " -> " + inputGroup.info+"\n";
+            logString += inputGroup.key + " -> " + inputGroup.info + "\n";
         }
     }
 }

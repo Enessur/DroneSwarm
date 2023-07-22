@@ -1,6 +1,7 @@
+using Script;
 using UnityEngine;
 
-namespace Script
+namespace Drone
 {
     [CreateAssetMenu(menuName = "Scriptable Objects/ Drone")]
     public class DroneScriptableObject : AgentScriptableObject
@@ -8,8 +9,5 @@ namespace Script
         public int damage;
         public int patrolRange;
         public int droneAttackRange;
-        
-        
-       
     }
 }

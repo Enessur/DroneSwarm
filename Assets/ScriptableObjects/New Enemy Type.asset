@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: New Enemy Type
   m_EditorClassIdentifier: 
   health: 20
-  chaseSpeed: 20
+  chaseSpeed: 10
   patrolSpeed: 600
   damage: 20
-  chasingDistance: 20
+  chasingDistance: 10
   attackDistance: 20
   whatIsPlayer:
     serializedVersion: 2

@@ -15,5 +15,5 @@ MonoBehaviour:
   chaseSpeed: 20
   followSpeed: 20
   damage: 3
-  patrolRange: 20
+  patrolRange: 30
   droneAttackRange: 1

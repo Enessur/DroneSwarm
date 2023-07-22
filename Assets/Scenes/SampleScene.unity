@@ -6000,7 +6000,7 @@ MonoBehaviour:
   patrolBorders: {fileID: 1140399550}
   moveSpot: {fileID: 1698715084}
   newEnemyType: {fileID: 11400000, guid: e824ac073c7ef4f4eaea6593553cc6d8, type: 2}
-  "\u0131nh": 0
+  inheritence: 1
 --- !u!54 &1878712718
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7295,6 +7295,83 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1001 &4986597479658422143
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4986597480220482812, guid: 4e3ea943a458f954ab29819eb53e208a, type: 3}
+      propertyPath: m_RootOrder
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986597480220482812, guid: 4e3ea943a458f954ab29819eb53e208a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986597480220482812, guid: 4e3ea943a458f954ab29819eb53e208a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986597480220482812, guid: 4e3ea943a458f954ab29819eb53e208a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986597480220482812, guid: 4e3ea943a458f954ab29819eb53e208a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986597480220482812, guid: 4e3ea943a458f954ab29819eb53e208a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986597480220482812, guid: 4e3ea943a458f954ab29819eb53e208a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986597480220482812, guid: 4e3ea943a458f954ab29819eb53e208a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986597480220482812, guid: 4e3ea943a458f954ab29819eb53e208a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986597480220482812, guid: 4e3ea943a458f954ab29819eb53e208a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986597480220482812, guid: 4e3ea943a458f954ab29819eb53e208a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986597480220482813, guid: 4e3ea943a458f954ab29819eb53e208a, type: 3}
+      propertyPath: layerGroups.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986597480220482813, guid: 4e3ea943a458f954ab29819eb53e208a, type: 3}
+      propertyPath: layerGroups.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986597480220482813, guid: 4e3ea943a458f954ab29819eb53e208a, type: 3}
+      propertyPath: layerGroups.Array.data[2]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986597480220482813, guid: 4e3ea943a458f954ab29819eb53e208a, type: 3}
+      propertyPath: layerGroups.Array.data[1].layerType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986597480220482813, guid: 4e3ea943a458f954ab29819eb53e208a, type: 3}
+      propertyPath: layerGroups.Array.data[2].layerType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986597480220482814, guid: 4e3ea943a458f954ab29819eb53e208a, type: 3}
+      propertyPath: m_Name
+      value: LayerManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4e3ea943a458f954ab29819eb53e208a, type: 3}
 --- !u!23 &5818359114302240007
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7466,7 +7543,7 @@ MonoBehaviour:
           m_CallState: 2
     inputType: 1
     info: SpawnStation
-  radius: 8
+  radius: 5
 --- !u!33 &8983056597109679128
 MeshFilter:
   m_ObjectHideFlags: 0

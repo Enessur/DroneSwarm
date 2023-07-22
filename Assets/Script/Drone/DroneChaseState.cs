@@ -1,30 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class DroneChaseState : IState
+namespace Drone
 {
-    
-
-    public void Tick(DroneAI droneAI)
+    public class DroneChaseState : IState
     {
-        droneAI._rb.ChangeVelocity(droneAI.transform.forward * droneAI.item.chaseSpeed);
-        droneAI._rb.velocity += droneAI.RandomizeDirectionMovement();
+        public void Tick(DroneAI droneAI)
+        {
+            droneAI._rb.ChangeVelocity(droneAI.transform.forward * droneAI.item.chaseSpeed);
+            droneAI._rb.velocity += droneAI.RandomizeDirectionMovement();
 
-        var leadTimePercentage = Mathf.InverseLerp(droneAI.data.minDistancePredict, droneAI.data.maxDistancePredict,
-            Vector3.Distance(droneAI.transform.position, droneAI._enemyTarget.transform.position));
+            var leadTimePercentage = Mathf.InverseLerp(droneAI.data.minDistancePredict, droneAI.data.maxDistancePredict,
+                Vector3.Distance(droneAI.transform.position, droneAI._enemyTarget.transform.position));
 
-        droneAI.PredictMovement_EnemyTarget(leadTimePercentage);
-        droneAI.Deviation(leadTimePercentage);
-        droneAI.RotateDrone();
-    }
+            droneAI.PredictMovement_EnemyTarget(leadTimePercentage);
+            droneAI.Deviation(leadTimePercentage);
+            droneAI.RotateDrone();
+        }
 
-    public void OnEnter()
-    {
-    }
+        public void OnEnter()
+        {
+        }
 
-    public void OnExit()
-    {
+        public void OnExit()
+        {
+        }
     }
 }
