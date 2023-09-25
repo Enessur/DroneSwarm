@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97743d9814bd888429753fa6db50f2ea, type: 3}
   m_Name: Drone
   m_EditorClassIdentifier: 
-  chaseSpeed: 20
-  followSpeed: 20
+  chaseSpeed: 60
+  followSpeed: 40
   damage: 3
   patrolRange: 30
   droneAttackRange: 1

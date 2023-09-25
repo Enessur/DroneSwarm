@@ -83,8 +83,14 @@ public class DroneSpawn : MonoBehaviour
         float angleIncrement = 360f / droneStations.Count;
         for (int i = 0; i < droneStations.Count; i++)
         {
+            
             float angle = i * angleIncrement;
             Vector3 newPosition = GetCirclePosition(angle);
+            if (i %2 == 0)
+            {
+                newPosition.y = VecY;
+            }
+         
                 droneStations[i].transform.position = newPosition;
         }
 
@@ -103,7 +109,7 @@ public class DroneSpawn : MonoBehaviour
     private Vector3 GetSpawnPosition()
     {
         Vector3 spawnPosition = transform.position;
-        spawnPosition.z += radius; // Z vektörü üzerinde spawn pozisyonunu güncelle
+        spawnPosition.z += radius; 
         return spawnPosition;
     }
 

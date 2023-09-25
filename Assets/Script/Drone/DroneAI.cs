@@ -195,7 +195,7 @@ namespace Drone
             {
                 x = Random.Range(-3, 3);
                 z = Random.Range(-3, 3);
-                y = Random.Range(-10, 10);
+                y = Random.Range(-20, 20);
                 timer = 0f;
             }
 

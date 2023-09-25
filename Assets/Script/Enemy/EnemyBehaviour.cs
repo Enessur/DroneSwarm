@@ -20,7 +20,6 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private float xMin, yMin, xMax, yMax, zMin, zMax;
     [SerializeField] private float startWaitTime = 1f;
 
-    public List<EnemyBehaviour> enemyTransforms = new();
     public Rigidbody Rb => _rb;
     public GameObject patrolBorders;
     public Transform moveSpot;

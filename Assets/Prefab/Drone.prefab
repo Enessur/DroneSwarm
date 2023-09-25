@@ -93,7 +93,7 @@ MeshCollider:
   m_GameObject: {fileID: 2858367904918424122}
   m_Material: {fileID: 13400000, guid: 4816084b19c36024e9d04416e4aaa4c3, type: 2}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
@@ -176,7 +176,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -3
-  m_Time: 1
+  m_Time: 0.5
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -185,7 +185,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.76065505
+        value: 0.24142134
         inSlope: 0
         outSlope: 0
         tangentMode: 0
