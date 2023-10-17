@@ -3,7 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable Objects/Enemy")]
 public class EnemyScriptableObject : ScriptableObject
 {
- public int health;
+ public float health;
+ public float maxHealth;
  public float chaseSpeed;
  public float patrolSpeed;
  public float damage;
@@ -17,6 +18,7 @@ public LayerMask WhatIsPlayerWtf => whatIsPlayer;
  public void SetValue(EnemyScriptableObject copy)
  {
      health = copy.health;
+     maxHealth = copy.maxHealth;
      chaseSpeed = copy.chaseSpeed;
      patrolSpeed = copy.patrolSpeed;
      damage = copy.damage;

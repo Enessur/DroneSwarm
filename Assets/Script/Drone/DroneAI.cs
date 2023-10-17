@@ -26,7 +26,6 @@ namespace Drone
         // [SerializeField] private float _maxTimePrediction = 5f;
 
         //Prediction
-        [SerializeField] private DroneMovementManager _droneMovementManager;
         [SerializeField] private LayerMask whatIsEnemies;
         private Quaternion targetRotation;
         private Vector3 previousPosition;
