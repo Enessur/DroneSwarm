@@ -27,6 +27,7 @@ public class DroneSpawn : MonoBehaviour
     [SerializeField] private List<DroneStation> droneStations;
     [SerializeField] private List<InputGroup> inputGroups;
     public float radius;
+    private float addRadius;
     private float _rotationSpeed;
     private float VecY = 2f;
     private DroneMovementManager m_droneMovementManager;
@@ -114,8 +115,11 @@ public class DroneSpawn : MonoBehaviour
 
     private Vector3 GetCirclePosition(float angle)
     {
-        float x = Mathf.Sin(Mathf.Deg2Rad * angle) * radius;
-        float z = Mathf.Cos(Mathf.Deg2Rad * angle) * radius;
+        addRadius = +droneStations.Count * 0.1f;
+
+
+        float x = Mathf.Sin(Mathf.Deg2Rad * angle) * (radius + addRadius);
+        float z = Mathf.Cos(Mathf.Deg2Rad * angle) * (radius + addRadius);
         return motherShip.transform.position + new Vector3(x, 0f, z);
     }
 
