@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseSpeed: 60
   followSpeed: 40
-  damage: 3
-  patrolRange: 30
+  damage: 30
+  patrolRange: 40
   droneAttackRange: 1

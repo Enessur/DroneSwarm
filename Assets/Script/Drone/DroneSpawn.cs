@@ -97,6 +97,8 @@ public class DroneSpawn : MonoBehaviour
         m_droneMovementManager.AddDrone(dr);
     }
 
+   
+
     private void RotateObjects()
     {
         foreach (var t in droneStations)
