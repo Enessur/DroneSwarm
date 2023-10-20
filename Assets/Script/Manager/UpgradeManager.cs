@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Drone;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +13,8 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private Text _upgradeType;
     [SerializeField] private Text _costTag;
     [SerializeField] private Text _levelText;
-
+    [SerializeField] private TMP_Text t;
+    
 
     private int _level = 0;
     private int _collectableGold;
