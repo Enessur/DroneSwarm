@@ -13,7 +13,7 @@ public class MotherShipMovement : MonoBehaviour
         Velocity,
         Force
     }
-
+    [TitleGroup("ABC")]
     [SerializeField] private MovementMode movementMode;
     [SerializeField] private bool ısForceMovementOn;
     

@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rotateSpeed: 360
   _deviationSpeed: 2
-  _deviationAmount: 100
-  _collectTimer: 1
+  _deviationAmount: 10
   _instance: 2
   _collectRange: 3
   _maxDistancePredict: 100

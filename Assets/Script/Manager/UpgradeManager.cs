@@ -11,23 +11,18 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private DroneScriptableObject _droneData;
     [SerializeField] private Text _upgradeType;
     [SerializeField] private Text _costTag;
-    
-    
+    [SerializeField] private Text _levelText;
+
+
+    private int _level = 0;
     private int _collectableGold;
-    private int _cost =100;
+    private int _cost = 100;
 
     private void Start()
     {
+        _upgradeType.text = "Speed Upgrade = " + _droneData.chaseSpeed;
         _costTag.text = "Upgrade Cost = " + _cost;
-        _upgradeType.text = "Speed Upgrade ="+_droneData.chaseSpeed;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            UpgradeSpeed();
-        }
+        _levelText.text = "Lvl:" + _level;
     }
 
     public void UpgradeSpeed()
@@ -35,14 +30,14 @@ public class UpgradeManager : MonoBehaviour
         _collectableGold = _motherShip.gathered;
         if (_collectableGold > _cost)
         {
-            _droneData.chaseSpeed =_droneData.chaseSpeed+ 10;
+            _droneData.chaseSpeed = _droneData.chaseSpeed + 10;
             _motherShip.gathered = _motherShip.gathered - _cost;
-            _cost = _cost+100;
-            Debug.Log("ben upgrade oluyom"+_droneData.chaseSpeed);
-            
+            _cost = _cost + 100;
+            _level++;
         }
-        _costTag.text = "Upgrade Cost = " + _cost;
-        _upgradeType.text = "Speed Upgrade ="+_droneData.chaseSpeed;
 
+        _upgradeType.text = "Speed Upgrade =" + _droneData.chaseSpeed;
+        _costTag.text = "Upgrade Cost = " + _cost;
+        _levelText.text = "Lvl:" + _level;
     }
 }

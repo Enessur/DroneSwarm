@@ -19,12 +19,12 @@ namespace Drone
         public float rotateSpeed => _rotateSpeed;
 
         
-        
+        //todo: add hp, collect amount
 
         [SerializeField] private float _rotateSpeed = 180;
         [SerializeField] private float _deviationSpeed = 2;
         [SerializeField] private float _deviationAmount = 50;
-        [SerializeField] private float _collectTimer = 1f;
+       // [SerializeField] private float _collectTimer = 1f;
         [SerializeField] private float _instance = 2f;
         [SerializeField] private float _collectRange =3f;
         [SerializeField] private float _maxDistancePredict = 100f;
