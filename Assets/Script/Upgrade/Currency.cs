@@ -6,7 +6,7 @@ namespace Upgrade
     public class Currency : ScriptableObject
     {
         public string id;
-
+        
 
     }
 }

@@ -13,6 +13,7 @@ namespace Upgrade
     public class BaseUpgrade : ScriptableObject
     {
         public string id;
+        public int level;
         public Currency currency;
     }
 }

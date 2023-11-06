@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97743d9814bd888429753fa6db50f2ea, type: 3}
-  m_Name: Drone
+  m_Script: {fileID: 11500000, guid: bb0c45fab2fe66f46abb90ad12729b03, type: 3}
+  m_Name: Upgrade
   m_EditorClassIdentifier: 
-  chaseSpeed: 110
-  followSpeed: 50
-  damage: 30
-  patrolRange: 40
-  droneAttackRange: 5
+  id: 
+  currency: {fileID: 11400000, guid: 3b39c45fdbad2df40867fe6dcb1f094c, type: 2}

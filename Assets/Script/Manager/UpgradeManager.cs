@@ -42,4 +42,9 @@ public class UpgradeManager : MonoBehaviour
         _costTag.text = "Upgrade Cost = " + _cost;
         _levelText.text = "Lvl:" + _level;
     }
+
+    public void Upgrade(string id, float value)
+    {
+        
+    }
 }

@@ -9,7 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb0c45fab2fe66f46abb90ad12729b03, type: 3}
-  m_Name: Upgrade
+  m_Script: {fileID: 11500000, guid: 51fdb5698d1764d499b3854d440c5a27, type: 3}
+  m_Name: Enemy
   m_EditorClassIdentifier: 
-  currency: {fileID: 0}
+  health: 120
+  maxHealth: 120
+  chaseSpeed: 10
+  patrolSpeed: 20
+  damage: 12
+  chasingDistance: 20
+  attackDistance: 2
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 128

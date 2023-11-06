@@ -1,3 +1,4 @@
+using Drone;
 using UnityEngine;
 
 namespace Upgrade
@@ -5,8 +6,6 @@ namespace Upgrade
     [CreateAssetMenu(menuName = "Upgrade/DroneUpgrade")]
     public class DroneUpgrade : BaseUpgrade
     {
-      
         public UpgradeGroup[] upgrades;
-        
     }
 }

@@ -10,8 +10,16 @@ namespace Upgrade
         [SerializeField] private Transform content;
         [SerializeField] private float duration = 0.5f;
         [SerializeField] private Ease ease;
-        private bool _isOpen;
+        public bool _isOpen;
         private Vector3 _startScale;
+
+
+        private void Awake()
+        {
+           _isOpen = true;
+           Close();
+        }
+        
 
         protected virtual void Start()
         {
@@ -24,7 +32,7 @@ namespace Upgrade
         }
 
         [Button]
-        protected virtual void Open()
+         public void Open()
         {
             if (_isOpen)
             {
@@ -35,7 +43,7 @@ namespace Upgrade
             _isOpen = true;
         }
         [Button]
-        protected virtual void Close()
+          public void Close()
         {
             if (!_isOpen)
             {
