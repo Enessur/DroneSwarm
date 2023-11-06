@@ -13,11 +13,28 @@ MonoBehaviour:
   m_Name: SpeedUpgrade
   m_EditorClassIdentifier: 
   id: Speed
+  level: 0
   currency: {fileID: 11400000, guid: 3b39c45fdbad2df40867fe6dcb1f094c, type: 2}
   upgrades:
-  - cost: 100
-    value: 65
-  - cost: 150
+  - cost: 200
+    value: 61
+  - cost: 220
+    value: 62
+  - cost: 240
+    value: 64
+  - cost: 260
+    value: 67
+  - cost: 300
     value: 70
-  - cost: 250
-    value: 75
+  - cost: 500
+    value: 73
+  - cost: 700
+    value: 77
+  - cost: 850
+    value: 80
+  - cost: 1200
+    value: 84
+  - cost: 2500
+    value: 88
+  - cost: 3500
+    value: 92

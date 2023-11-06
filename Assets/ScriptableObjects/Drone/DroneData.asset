@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cb81bda6435f3e4181f36dfa1cfff76, type: 3}
   m_Name: DroneData
   m_EditorClassIdentifier: 
-  _rotateSpeed: 360
+  _rotateSpeed: 190
   _deviationSpeed: 2
   _deviationAmount: 10
   _instance: 2

@@ -16,9 +16,13 @@ namespace Drone
         public float deviationSpeed => _deviationSpeed;
         public float deviationAmount => _deviationAmount;
 
-        public float rotateSpeed => _rotateSpeed;
+        public float rotateSpeed
+        {
+            get => _rotateSpeed;
+            set => _rotateSpeed = value;
+        }
 
-        
+
         //todo: add hp, collect amount
 
         [SerializeField] private float _rotateSpeed = 180;

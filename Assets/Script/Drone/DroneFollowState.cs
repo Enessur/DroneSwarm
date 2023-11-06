@@ -11,7 +11,7 @@ namespace Drone
             droneAI._rb.velocity = droneAI.transform.forward * 0;
             droneAI.RotateDroneOnFollow();
 
-            if (Vector3.Distance(droneAI.transform.position, droneAI._droneStationTransform.position) < 0.4f)
+            if ((Vector3.Distance(droneAI.transform.position, droneAI._droneStationTransform.position) < 0.4f)&&(droneAI.Stored > 0))
             {
                 droneAI.timer += Time.deltaTime;
                 if (droneAI.timer >= droneAI.data.instance)

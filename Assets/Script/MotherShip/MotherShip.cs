@@ -11,7 +11,7 @@ public class MotherShip : Script.Singleton<MotherShip>
     [SerializeField] private Text _gatheredText;
     
     
-    public int gathered;
+    public float gathered;
     public bool isMotherShipStorageFull;
     public Rigidbody rb;
     public Transform childObject;
@@ -21,10 +21,10 @@ public class MotherShip : Script.Singleton<MotherShip>
     {
         rb = GetComponent<Rigidbody>();
         targetRotation = childObject.rotation;
-        _gatheredText.text = "Gathered Resources =" + gathered;
+        _gatheredText.text = "Gathered Resources = " + gathered;
     }
 
-    public void AddResource(int addResource)
+    public void AddResource(float addResource)
     {
         gathered += addResource;
         if (gathered >= _maxHeld)
@@ -35,6 +35,13 @@ public class MotherShip : Script.Singleton<MotherShip>
         {
             isMotherShipStorageFull = false;
         }
+
+        _gatheredText.text = "Gathered Resources = " + gathered;
+    }
+
+    public void RemoveResource(float removeResource)
+    {
+        gathered -= removeResource;
 
         _gatheredText.text = "Gathered Resources = " + gathered;
     }

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: RotateSpeedUpgrade
   m_EditorClassIdentifier: 
   id: RotateSpeed
+  level: 0
   currency: {fileID: 11400000, guid: 3b39c45fdbad2df40867fe6dcb1f094c, type: 2}
   upgrades:
   - cost: 100
@@ -23,3 +24,15 @@ MonoBehaviour:
     value: 200
   - cost: 550
     value: 210
+  - cost: 1000
+    value: 250
+  - cost: 1500
+    value: 360
+  - cost: 2500
+    value: 390
+  - cost: 3200
+    value: 420
+  - cost: 4500
+    value: 460
+  - cost: 6000
+    value: 500
