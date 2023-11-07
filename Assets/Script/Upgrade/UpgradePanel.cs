@@ -8,38 +8,39 @@ using Upgrade;
 
 public class UpgradePanel : MonoBehaviour
 {
-    [SerializeField] private UpgradeManager _upgradeManager;
-    [SerializeField] private MotherShip _motherShip;
-    [SerializeField] private DroneUpgrade _droneUpgrade;
-    [SerializeField] private TMP_Text _upgradeType;
-    [SerializeField] private TMP_Text _costTag;
-    [SerializeField] private TMP_Text _levelText;
+    [SerializeField] private UpgradeManager upgradeManager;
+    [SerializeField] private MotherShip motherShip;
+    [SerializeField] private DroneUpgrade droneUpgrade;
+    [SerializeField] private TMP_Text upgradeType;
+    [SerializeField] private TMP_Text costTag;
+    [SerializeField] private TMP_Text levelText;
+    private int _index;
 
-   // [SerializeField] private UpgradeName _upgradeName;
-   
+    // [SerializeField] private UpgradeName _upgradeName;
+
     private UpgradeGroup _upgradeGroup;
 
     private void Start()
     {
-        _upgradeGroup = _droneUpgrade.upgrades[_droneUpgrade.level];
-        _upgradeType.SetText("Upgrade " + _droneUpgrade.id + ": " + _upgradeGroup.value);
-        _costTag.SetText("Upgrade Cost: " + _upgradeGroup.cost);
-        _levelText.SetText("Upgrade Level: " + _droneUpgrade.level);
+        _upgradeGroup = droneUpgrade.upgrades[droneUpgrade.level];
+        upgradeType.SetText("Upgrade " + droneUpgrade.id + ": " + _upgradeGroup.value);
+        costTag.SetText("Upgrade Cost: " + _upgradeGroup.cost);
+        levelText.SetText("Upgrade Level: " + droneUpgrade.level);
     }
 
     public void UpgradeStat()
     {
-        if (_motherShip.gathered > _upgradeGroup.cost)
+        if (motherShip.gathered > _upgradeGroup.cost)
         {
-           _motherShip.RemoveResource(_upgradeGroup.cost);
-            _droneUpgrade.level++;
-            _upgradeGroup = _droneUpgrade.upgrades[_droneUpgrade.level];
+            motherShip.RemoveResource(_upgradeGroup.cost);
+            _index++;
+            _upgradeGroup = droneUpgrade.upgrades[droneUpgrade.level];
 
-            _upgradeType.SetText("Upgrade " + _droneUpgrade.id + ": " + _upgradeGroup.value);
-            _costTag.SetText("Upgrade Cost: " + _upgradeGroup.cost);
-            _levelText.SetText("Upgrade Level: " + _droneUpgrade.level);
+            upgradeType.SetText("Upgrade " + droneUpgrade.id + ": " + _upgradeGroup.value);
+            costTag.SetText("Upgrade Cost: " + _upgradeGroup.cost);
+            levelText.SetText("Upgrade Level: " + droneUpgrade.level);
 
-            _upgradeManager.Upgrade(_droneUpgrade.id, _upgradeGroup.value);
+            upgradeManager.Upgrade(droneUpgrade.droneUpgradeType, _index);
         }
     }
 }

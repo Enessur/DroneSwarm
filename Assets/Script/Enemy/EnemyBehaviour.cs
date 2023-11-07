@@ -19,7 +19,7 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] protected TaskCycleEnemy taskCycleEnemy;
     [SerializeField] private float xMin, yMin, xMax, yMax, zMin, zMax;
     [SerializeField] private float startWaitTime = 1f;
-    [SerializeField]  private HealthBar _healthBar;
+    [SerializeField]  private HealthBar healthBar;
     
    
     public Rigidbody Rb => _rb;
@@ -27,7 +27,7 @@ public class EnemyBehaviour : MonoBehaviour
     public Transform moveSpot;
     protected Transform _target;
     private Rigidbody _rb;
-    protected int _currentHealth;
+    protected int currentHealth;
     private Vector3 _patrolPos;
     private float _patrolTimer;
     protected EnemyScriptableObject m_enemyDataInstance;
@@ -55,7 +55,7 @@ public class EnemyBehaviour : MonoBehaviour
         moveSpot.SetParent(null);
         patrolBorders.transform.parent = null;
         
-        _healthBar.UpdateHealthBar(m_enemyDataInstance.maxHealth, m_enemyDataInstance.health);
+        healthBar.UpdateHealthBar(m_enemyDataInstance.maxHealth, m_enemyDataInstance.health);
     }
 
 
@@ -131,7 +131,7 @@ public class EnemyBehaviour : MonoBehaviour
     private void TakeDamage()
     {
         m_enemyDataInstance.health -= 5;
-        _healthBar.UpdateHealthBar(m_enemyDataInstance.maxHealth, m_enemyDataInstance.health);
+        healthBar.UpdateHealthBar(m_enemyDataInstance.maxHealth, m_enemyDataInstance.health);
         if (m_enemyDataInstance.health < 1)
         {
             TargetManager.Instance.RemoveEnemy(this);

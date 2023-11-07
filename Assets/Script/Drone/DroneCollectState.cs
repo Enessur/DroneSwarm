@@ -10,15 +10,15 @@ namespace Drone
         
         
         
-            if (Vector3.Distance(droneAI.transform.position, droneAI._collectable.transform.position) >
+            if (Vector3.Distance(droneAI.transform.position, droneAI.collectable.transform.position) >
                 droneAI.data.collectRange)
             {
-                droneAI._rb.ChangeVelocity(droneAI.transform.forward * droneAI.item.chaseSpeed);
-                droneAI._rb.velocity += droneAI.RandomizeDirectionMovement();
+                droneAI.rb.ChangeVelocity(droneAI.transform.forward * droneAI.item.chaseSpeed);
+                droneAI.rb.velocity += droneAI.RandomizeDirectionMovement();
 
                 var leadTimePercentage = Mathf.InverseLerp(droneAI.data.minDistancePredict, droneAI.data.maxDistancePredict,
 
-                    Vector3.Distance(droneAI.transform.position, droneAI._collectable.transform.position));
+                    Vector3.Distance(droneAI.transform.position, droneAI.collectable.transform.position));
 
                 droneAI.PredictMovement_Collect(leadTimePercentage);
                 droneAI.Deviation(leadTimePercentage);
@@ -29,10 +29,10 @@ namespace Drone
                 droneAI.timer += Time.deltaTime;
                 if (droneAI._isStorageFull != true)
                 {
-                    droneAI._rb.velocity = droneAI.transform.forward * 0;
+                    droneAI.rb.velocity = droneAI.transform.forward * 0;
                     if (droneAI.timer >= droneAI.collectTimer)
                     {
-                        droneAI._collectable.Take();
+                        droneAI.collectable.Take();
                         droneAI.AddToStorage();
                         droneAI.timer = 0;
                     

@@ -255,14 +255,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392024975474d2d4688b54ee0d0c7271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rb: {fileID: 2437586333623775101}
+  rb: {fileID: 2437586333623775101}
   item: {fileID: 11400000, guid: 852e10bef3828694e897aea2f3d4baf9, type: 2}
   data: {fileID: 11400000, guid: c95b14e7633d024419966d4e336d1a11, type: 2}
-  _collectable: {fileID: 0}
-  _enemyTarget: {fileID: 0}
-  _droneStationTransform: {fileID: 0}
+  collectable: {fileID: 5448782857671366186, guid: ee4525bff68e2834798a1507c43b7328, type: 3}
+  enemyTarget: {fileID: 830778855722855126, guid: b423730f165a3994cac117d529d853ab, type: 3}
+  droneStationTransform: {fileID: 0}
   collectTimer: 0.5
-  _storageCapacity: 20
+  storageCapacity: 20
   whatIsEnemies:
     serializedVersion: 2
     m_Bits: 64

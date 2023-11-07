@@ -3308,6 +3308,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _droneData: {fileID: 11400000, guid: 852e10bef3828694e897aea2f3d4baf9, type: 2}
   _droneDataSc: {fileID: 11400000, guid: c95b14e7633d024419966d4e336d1a11, type: 2}
+  droneUpgrades:
+  - {fileID: 11400000, guid: 89eb1028f3d8f4c498eced4ae903e5e8, type: 2}
+  - {fileID: 11400000, guid: d20139911ae161d4a882542be4422e29, type: 2}
 --- !u!4 &1145287005
 Transform:
   m_ObjectHideFlags: 0

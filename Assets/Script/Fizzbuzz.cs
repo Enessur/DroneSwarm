@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class Fizzbuzz : MonoBehaviour
 {
+
+    public struct xgroup
+    {
+        public string id;
+        public int modula;
+        
+    }
+    
     void Start()
     {
         int i;

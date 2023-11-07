@@ -10,14 +10,14 @@ namespace Drone
 {
     public class DroneAI : MonoBehaviour
     {
-        public Rigidbody _rb;
+        public Rigidbody rb;
         public DroneScriptableObject item;
         public DroneDataScriptable data;
-        public Collectable _collectable;
-        public EnemyBehaviour _enemyTarget;
-        public Transform _droneStationTransform;
-        public float collectTimer = 1f; // get set yapılmıyor
-        [SerializeField] private int _storageCapacity = 20;
+        public Collectable collectable;
+        public EnemyBehaviour enemyTarget;
+        public Transform droneStationTransform;
+        public float collectTimer = 1f; 
+        [SerializeField] private int storageCapacity = 20;
 
         public float timer { get; set; } = 0;
         public int Stored { get; set; } = 0;
@@ -58,28 +58,28 @@ namespace Drone
 
             _stateMachine.SetState(follow);
 
-            Func<bool> HasTarget() => () => _enemyTarget != null &&
-                                            Vector3.Distance(_enemyTarget.transform.position,
-                                                _droneStationTransform.position) <
+            Func<bool> HasTarget() => () => enemyTarget != null &&
+                                            Vector3.Distance(enemyTarget.transform.position,
+                                                droneStationTransform.position) <
                                             item.patrolRange;
 
-            Func<bool> HasCollectable() => () => _collectable != null && !_isStorageFull &&
-                                                 Vector3.Distance(_collectable.transform.position,
-                                                     _droneStationTransform.position)
+            Func<bool> HasCollectable() => () => collectable != null && !_isStorageFull &&
+                                                 Vector3.Distance(collectable.transform.position,
+                                                     droneStationTransform.position)
                                                  < item.patrolRange;
 
-            Func<bool> HasNoTarget() => () => _enemyTarget == null;
+            Func<bool> HasNoTarget() => () => enemyTarget == null;
 
-            Func<bool> HasNoCollectable() => () => (_collectable == null || _isStorageFull == true) || Vector3.Distance(
-                    _collectable.transform.position,
-                    _droneStationTransform.position)
+            Func<bool> HasNoCollectable() => () => (collectable == null || _isStorageFull == true) || Vector3.Distance(
+                    collectable.transform.position,
+                    droneStationTransform.position)
                 > item.patrolRange;
         }
 
         private void Start()
         {
             previousPosition = transform.position;
-            _collectable = TargetManager.Instance.FindCollectable(gameObject.transform.position);
+            collectable = TargetManager.Instance.FindCollectable(gameObject.transform.position);
         }
 
         public void DroneMovement()
@@ -101,7 +101,7 @@ namespace Drone
         {
             var heading = _deviatedPrediction - transform.position;
             var rotation = Quaternion.LookRotation(heading);
-            _rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, data.rotateSpeed * Time.deltaTime));
+            rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, data.rotateSpeed * Time.deltaTime));
         }
 
         public void RotateDroneOnFollow()
@@ -114,7 +114,7 @@ namespace Drone
                 Vector3 heading = currentVelocity.normalized;
                 Quaternion desiredRotation = Quaternion.LookRotation(heading, transform.up);
                 targetRotation = Quaternion.Slerp(targetRotation, desiredRotation, data.rotateSpeed * Time.deltaTime);
-                _rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, targetRotation,
+                rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, targetRotation,
                     (data.rotateSpeed * 1.5f) * Time.deltaTime));
             }
         }
@@ -127,7 +127,7 @@ namespace Drone
 
         public void PredictMovement_EnemyTarget(float leadTimePercentage)
         {
-            PredictMovement(leadTimePercentage, _enemyTarget.Rb);
+            PredictMovement(leadTimePercentage, enemyTarget.Rb);
             // var predictionTime = Mathf.Lerp(0, data.maxDistancePredict, leadTimePercentage);
             // _standartPrediction = _enemyTarget.Rb.position + _enemyTarget.Rb.velocity * predictionTime;
         }
@@ -135,7 +135,7 @@ namespace Drone
         public void PredictMovement_Collect(float leadTimePercentage)
         {
             var predictionTime = Mathf.Lerp(0, data.maxDistancePredict, leadTimePercentage);
-            _standartPrediction = _collectable.Rb.position + _collectable.Rb.velocity * predictionTime;
+            _standartPrediction = collectable.Rb.position + collectable.Rb.velocity * predictionTime;
         }
 
         public void FindEmptyStation()
@@ -145,18 +145,18 @@ namespace Drone
 
         public void FindCollectable()
         {
-            _collectable = TargetManager.Instance.FindCollectable(gameObject.transform.position);
+            collectable = TargetManager.Instance.FindCollectable(gameObject.transform.position);
         }
 
         public void FindEnemy()
         {
-            _enemyTarget = TargetManager.Instance.FindClosestTarget(gameObject.transform.position);
+            enemyTarget = TargetManager.Instance.FindClosestTarget(gameObject.transform.position);
         }
 
         public void AddToStorage()
         {
             Stored++;
-            if (Stored >= _storageCapacity)
+            if (Stored >= storageCapacity)
             {
                 _isStorageFull = true;
             }
@@ -171,7 +171,7 @@ namespace Drone
         public void Init(DroneStation ds)
         {
             _motherShipStation = ds;
-            _droneStationTransform = ds.transform;
+            droneStationTransform = ds.transform;
 
             TargetManager.Instance.AddDrone(this);
         }
@@ -204,9 +204,9 @@ namespace Drone
 
     public static class MathUtils
     {
-        public static Vector3 DoSin(float _deviationSpeed)
+        public static Vector3 DoSin(float deviationSpeed)
         {
-            return new Vector3(Mathf.Sin(Time.time * _deviationSpeed), 0, Mathf.Cos(Time.time * _deviationSpeed));
+            return new Vector3(Mathf.Sin(Time.time * deviationSpeed), 0, Mathf.Cos(Time.time * deviationSpeed));
         }
     }
 }

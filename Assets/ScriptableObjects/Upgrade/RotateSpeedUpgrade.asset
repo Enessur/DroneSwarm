@@ -15,6 +15,7 @@ MonoBehaviour:
   id: RotateSpeed
   level: 0
   currency: {fileID: 11400000, guid: 3b39c45fdbad2df40867fe6dcb1f094c, type: 2}
+  droneUpgradeType: 1
   upgrades:
   - cost: 100
     value: 180

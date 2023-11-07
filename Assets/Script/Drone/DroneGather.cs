@@ -13,7 +13,7 @@ public class DroneGather : IState
         {
             if (droneAI.timer >= droneAI.collectTimer)
             {
-                droneAI._collectable.Take();
+                droneAI.collectable.Take();
                 droneAI.AddToStorage();
                 droneAI.timer = 0;
             }

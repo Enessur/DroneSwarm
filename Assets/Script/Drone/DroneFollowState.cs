@@ -7,11 +7,11 @@ namespace Drone
         public void Tick (DroneAI droneAI)
         {
             droneAI.transform.position = Vector3.MoveTowards(droneAI.transform.position,
-                droneAI._droneStationTransform.position, droneAI.item.followSpeed * Time.deltaTime);
-            droneAI._rb.velocity = droneAI.transform.forward * 0;
+                droneAI.droneStationTransform.position, droneAI.item.followSpeed * Time.deltaTime);
+            droneAI.rb.velocity = droneAI.transform.forward * 0;
             droneAI.RotateDroneOnFollow();
 
-            if ((Vector3.Distance(droneAI.transform.position, droneAI._droneStationTransform.position) < 0.4f)&&(droneAI.Stored > 0))
+            if ((Vector3.Distance(droneAI.transform.position, droneAI.droneStationTransform.position) < 0.4f)&&(droneAI.Stored > 0))
             {
                 droneAI.timer += Time.deltaTime;
                 if (droneAI.timer >= droneAI.data.instance)

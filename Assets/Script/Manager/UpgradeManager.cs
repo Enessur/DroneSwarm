@@ -1,27 +1,49 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Drone;
-using TMPro;
+using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Events;
+using Upgrade;
 
 public class UpgradeManager : MonoBehaviour
 {
-    [SerializeField] private DroneScriptableObject _droneData;
-    [SerializeField] private DroneDataScriptable _droneDataSc;
-   
-
-    public void Upgrade(string id, float value)
+    public class DroneUpgradeGroup
     {
-        switch (id)
+        public DroneUpgrade droneUpgrade;
+        public int index;
+    }
+
+    [SerializeField] private DroneScriptableObject droneData;
+    [SerializeField] private DroneDataScriptable droneDataSc;
+    [SerializeField] private DroneUpgrade[] droneUpgrades;
+    [ShowInInspector] private Dictionary<DroneUpgrade.DroneUpgradeType, DroneUpgradeGroup> _droneUpgradeDic = new();
+    [SerializeField] private UnityEvent<DroneUpgrade.DroneUpgradeType,float> onUpgrade;
+    
+
+    private void Awake()
+    {
+        InitDictionary();
+    }
+
+    
+    private void InitDictionary()
+    {
+        foreach (var droneUpgrade in droneUpgrades)
         {
-            case "Speed":
-                _droneData.chaseSpeed = value;
-                break;
-            case "RotateSpeed":
-                _droneDataSc.rotateSpeed = value;
-                break;
+            var group = new DroneUpgradeGroup
+            {
+                droneUpgrade = droneUpgrade,
+                index = 0
+            };
+            _droneUpgradeDic.Add(droneUpgrade.droneUpgradeType, group);
         }
+    }
+
+    public void Upgrade(DroneUpgrade.DroneUpgradeType type, int value)
+    {
+        var upgradeData = _droneUpgradeDic[type];
+        upgradeData.index = value;
+        Debug.Log(type + " " + value);
+        onUpgrade?.Invoke(type,upgradeData.droneUpgrade.upgrades[value].value);
     }
 }

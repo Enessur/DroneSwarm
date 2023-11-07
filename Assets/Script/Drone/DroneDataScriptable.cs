@@ -5,12 +5,11 @@ namespace Drone
     [CreateAssetMenu(menuName = "Scriptable Objects/DroneData")]
     public class DroneDataScriptable : ScriptableObject
     {
-
-
-
-        public float maxDistancePredict => _maxDistancePredict; 
+        public float maxDistancePredict => _maxDistancePredict;
         public float minDistancePredict => _minDistancePredict;
-        public float collectRange =>_collectRange;
+
+        public float collectRange => _collectRange;
+
         // public float collectTimer => _collectTimer;
         public float instance => _instance;
         public float deviationSpeed => _deviationSpeed;
@@ -25,14 +24,13 @@ namespace Drone
 
         //todo: add hp, collect amount
 
-        [SerializeField] private float _rotateSpeed = 180;
-        [SerializeField] private float _deviationSpeed = 2;
-        [SerializeField] private float _deviationAmount = 50;
-       // [SerializeField] private float _collectTimer = 1f;
-        [SerializeField] private float _instance = 2f;
-        [SerializeField] private float _collectRange =3f;
-        [SerializeField] private float _maxDistancePredict = 100f;
-        [SerializeField] private float _minDistancePredict = 5f;
-    
+        private float _rotateSpeed = 180;
+        private float _deviationSpeed = 2;
+        private float _deviationAmount = 50;
+        //private float _collectTimer = 1f;
+        private float _instance = 2f;
+        private float _collectRange = 3f;
+        private float _maxDistancePredict = 100f;
+        private float _minDistancePredict = 5f;
     }
 }
