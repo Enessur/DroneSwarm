@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Drone;
+using Manager;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -21,9 +22,10 @@ public class DroneSpawn : MonoBehaviour
         public string info;
     }
 
+    [SerializeField] private UpgradeManager upgradeManager;
     [SerializeField] private DroneAI drone;
     [SerializeField] private DroneStation droneStation;
-    [SerializeField] private MotherShip motherShip;
+    [SerializeField] private MotherShip.MotherShip motherShip;
     [SerializeField] private List<DroneStation> droneStations;
     [SerializeField] private List<InputGroup> inputGroups;
     public float radius;
@@ -77,7 +79,7 @@ public class DroneSpawn : MonoBehaviour
     {
         var ds = Instantiate(droneStation, GetSpawnPosition(), Quaternion.identity);
         var dr = Instantiate(drone, GetSpawnPosition(), Quaternion.identity);
-        dr.Init(ds);
+        dr.Init(ds,upgradeManager);
         ds.Init();
         droneStations.Add(ds);
         ds.transform.SetParent(motherShip.transform);

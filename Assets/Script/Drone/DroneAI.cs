@@ -1,9 +1,9 @@
 using System;
-using System.Security.Cryptography;
+using Manager;
 using Script;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Upgrade;
 using Random = UnityEngine.Random;
 
 namespace Drone
@@ -16,8 +16,12 @@ namespace Drone
         public Collectable collectable;
         public EnemyBehaviour enemyTarget;
         public Transform droneStationTransform;
-        public float collectTimer = 1f; 
+        public float collectTimer = 1f;
         [SerializeField] private int storageCapacity = 20;
+
+        [SerializeField] private float _moveSpeed;
+        [SerializeField] private float _rotateSpeed;
+
 
         public float timer { get; set; } = 0;
         public int Stored { get; set; } = 0;
@@ -40,8 +44,12 @@ namespace Drone
         [FormerlySerializedAs("_isCollecting")] [SerializeField]
         public bool _isStorageFull;
 
-        private void Awake()
+        public void Init(DroneStation ds, UpgradeManager upgradeManager)
         {
+            _moveSpeed = upgradeManager.GetUpgradeData(DroneUpgrade.DroneUpgradeType.MoveSpeed);
+            _rotateSpeed = upgradeManager.GetUpgradeData(DroneUpgrade.DroneUpgradeType.RotateSpeed);
+            _motherShipStation = ds;
+            droneStationTransform = ds.transform;
             _stateMachine = new StateMachine.StateMachine();
 
             var chase = new DroneChaseState();
@@ -70,17 +78,34 @@ namespace Drone
 
             Func<bool> HasNoTarget() => () => enemyTarget == null;
 
-            Func<bool> HasNoCollectable() => () => (collectable == null || _isStorageFull == true) || Vector3.Distance(
+            Func<bool> HasNoCollectable() => () => (collectable == null || _isStorageFull) || Vector3.Distance(
                     collectable.transform.position,
                     droneStationTransform.position)
                 > item.patrolRange;
-        }
 
-        private void Start()
-        {
+            upgradeManager.onUpgrade.AddListener(OnUpgrade);
+
             previousPosition = transform.position;
             collectable = TargetManager.Instance.FindCollectable(gameObject.transform.position);
+            TargetManager.Instance.AddDrone(this);
         }
+
+
+        private void OnUpgrade(DroneUpgrade.DroneUpgradeType type, float value)
+        {
+            switch (type)
+            {
+                case DroneUpgrade.DroneUpgradeType.MoveSpeed:
+                    _moveSpeed = value;
+                    break;
+                case DroneUpgrade.DroneUpgradeType.RotateSpeed:
+                    _rotateSpeed = value;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+        }
+
 
         public void DroneMovement()
         {
@@ -101,7 +126,7 @@ namespace Drone
         {
             var heading = _deviatedPrediction - transform.position;
             var rotation = Quaternion.LookRotation(heading);
-            rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, data.rotateSpeed * Time.deltaTime));
+            rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, _rotateSpeed * Time.deltaTime));
         }
 
         public void RotateDroneOnFollow()
@@ -113,7 +138,7 @@ namespace Drone
             {
                 Vector3 heading = currentVelocity.normalized;
                 Quaternion desiredRotation = Quaternion.LookRotation(heading, transform.up);
-                targetRotation = Quaternion.Slerp(targetRotation, desiredRotation, data.rotateSpeed * Time.deltaTime);
+                targetRotation = Quaternion.Slerp(targetRotation, desiredRotation, _rotateSpeed * Time.deltaTime);
                 rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, targetRotation,
                     (data.rotateSpeed * 1.5f) * Time.deltaTime));
             }
@@ -164,17 +189,9 @@ namespace Drone
 
         public void SendCollectables()
         {
-            MotherShip.Instance.AddResource(Stored);
+            MotherShip.MotherShip.Instance.AddResource(Stored);
         }
 
-
-        public void Init(DroneStation ds)
-        {
-            _motherShipStation = ds;
-            droneStationTransform = ds.transform;
-
-            TargetManager.Instance.AddDrone(this);
-        }
 
         private void OnDrawGizmos()
         {
