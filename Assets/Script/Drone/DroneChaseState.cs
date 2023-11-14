@@ -6,7 +6,7 @@ namespace Drone
     {
         public void Tick(DroneAI droneAI)
         {
-            droneAI.rb.ChangeVelocity(droneAI.transform.forward * droneAI.item.chaseSpeed);
+            droneAI.rb.ChangeVelocity(droneAI.transform.forward * droneAI.playerPrefs.moveSpeed);
             droneAI.rb.velocity += droneAI.RandomizeDirectionMovement();
 
             var leadTimePercentage = Mathf.InverseLerp(droneAI.data.minDistancePredict, droneAI.data.maxDistancePredict,

@@ -255,6 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 392024975474d2d4688b54ee0d0c7271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefs: {fileID: 6109201974862212112, guid: 2c2acb011be6cc04e957f450fedbf490, type: 3}
   rb: {fileID: 2437586333623775101}
   item: {fileID: 11400000, guid: 852e10bef3828694e897aea2f3d4baf9, type: 2}
   data: {fileID: 11400000, guid: c95b14e7633d024419966d4e336d1a11, type: 2}
@@ -263,9 +264,8 @@ MonoBehaviour:
   droneStationTransform: {fileID: 0}
   collectTimer: 0.5
   storageCapacity: 20
-  whatIsEnemies:
-    serializedVersion: 2
-    m_Bits: 64
+  moveSpeed: 0
+  rotateSpeed: 0
   _isStorageFull: 0
 --- !u!54 &2437586333623775101
 Rigidbody:

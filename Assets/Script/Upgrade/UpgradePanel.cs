@@ -30,11 +30,11 @@ namespace Upgrade
             {
                 motherShip.RemoveResource(_upgradeGroup.cost);
                 _index++;
-                _upgradeGroup = droneUpgrade.upgrades[droneUpgrade.level];
+                _upgradeGroup = droneUpgrade.upgrades[_index];
 
                 upgradeType.SetText("Upgrade " + droneUpgrade.id + ": " + _upgradeGroup.value);
                 costTag.SetText("Upgrade Cost: " + _upgradeGroup.cost);
-                levelText.SetText("Upgrade Level: " + droneUpgrade.level);
+                levelText.SetText("Upgrade Level: " + _index);
                 upgradeManager.Upgrade(droneUpgrade.droneUpgradeType, _index);
             }
         }

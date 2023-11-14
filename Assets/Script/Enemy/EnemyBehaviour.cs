@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
 using Script;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class EnemyBehaviour : MonoBehaviour

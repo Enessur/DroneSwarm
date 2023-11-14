@@ -4,12 +4,14 @@ using Script;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Upgrade;
+using PlayerPrefs = Upgrade.PlayerPrefs;
 using Random = UnityEngine.Random;
 
 namespace Drone
 {
     public class DroneAI : MonoBehaviour
     {
+        public PlayerPrefs playerPrefs;
         public Rigidbody rb;
         public DroneScriptableObject item;
         public DroneDataScriptable data;
@@ -17,10 +19,10 @@ namespace Drone
         public EnemyBehaviour enemyTarget;
         public Transform droneStationTransform;
         public float collectTimer = 1f;
-        [SerializeField] private int storageCapacity = 20;
 
-        [SerializeField] private float _moveSpeed;
-        [SerializeField] private float _rotateSpeed;
+        [SerializeField] private int storageCapacity = 20;
+        // [SerializeField] private float moveSpeed;
+        // [SerializeField] private float rotateSpeed;
 
 
         public float timer { get; set; } = 0;
@@ -30,7 +32,6 @@ namespace Drone
         // [SerializeField] private float _maxTimePrediction = 5f;
 
         //Prediction
-        [SerializeField] private LayerMask whatIsEnemies;
         private Quaternion targetRotation;
         private Vector3 previousPosition;
 
@@ -46,8 +47,8 @@ namespace Drone
 
         public void Init(DroneStation ds, UpgradeManager upgradeManager)
         {
-            _moveSpeed = upgradeManager.GetUpgradeData(DroneUpgrade.DroneUpgradeType.MoveSpeed);
-            _rotateSpeed = upgradeManager.GetUpgradeData(DroneUpgrade.DroneUpgradeType.RotateSpeed);
+            playerPrefs.moveSpeed = upgradeManager.GetUpgradeData(DroneUpgrade.DroneUpgradeType.MoveSpeed);
+            playerPrefs.rotateSpeed = upgradeManager.GetUpgradeData(DroneUpgrade.DroneUpgradeType.RotateSpeed);
             _motherShipStation = ds;
             droneStationTransform = ds.transform;
             _stateMachine = new StateMachine.StateMachine();
@@ -96,10 +97,10 @@ namespace Drone
             switch (type)
             {
                 case DroneUpgrade.DroneUpgradeType.MoveSpeed:
-                    _moveSpeed = value;
+                    playerPrefs.moveSpeed = value;
                     break;
                 case DroneUpgrade.DroneUpgradeType.RotateSpeed:
-                    _rotateSpeed = value;
+                    playerPrefs.rotateSpeed = value;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
@@ -126,7 +127,7 @@ namespace Drone
         {
             var heading = _deviatedPrediction - transform.position;
             var rotation = Quaternion.LookRotation(heading);
-            rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, _rotateSpeed * Time.deltaTime));
+            rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, playerPrefs.rotateSpeed * Time.deltaTime));
         }
 
         public void RotateDroneOnFollow()
@@ -138,9 +139,9 @@ namespace Drone
             {
                 Vector3 heading = currentVelocity.normalized;
                 Quaternion desiredRotation = Quaternion.LookRotation(heading, transform.up);
-                targetRotation = Quaternion.Slerp(targetRotation, desiredRotation, _rotateSpeed * Time.deltaTime);
+                targetRotation = Quaternion.Slerp(targetRotation, desiredRotation, playerPrefs.rotateSpeed * Time.deltaTime);
                 rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, targetRotation,
-                    (data.rotateSpeed * 1.5f) * Time.deltaTime));
+                    (playerPrefs.rotateSpeed * 1.5f) * Time.deltaTime));
             }
         }
 

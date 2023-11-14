@@ -7,7 +7,7 @@ namespace Drone
         public void Tick (DroneAI droneAI)
         {
             droneAI.transform.position = Vector3.MoveTowards(droneAI.transform.position,
-                droneAI.droneStationTransform.position, droneAI.item.followSpeed * Time.deltaTime);
+                droneAI.droneStationTransform.position, droneAI.playerPrefs.moveSpeed * Time.deltaTime);
             droneAI.rb.velocity = droneAI.transform.forward * 0;
             droneAI.RotateDroneOnFollow();
 
