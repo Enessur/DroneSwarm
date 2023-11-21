@@ -5967,7 +5967,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6109201974862212112, guid: 2c2acb011be6cc04e957f450fedbf490, type: 3}
       propertyPath: damage
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6109201974862212113, guid: 2c2acb011be6cc04e957f450fedbf490, type: 3}
       propertyPath: m_Name

@@ -47,8 +47,8 @@ namespace Drone
 
         public void Init(DroneStation ds, UpgradeManager upgradeManager)
         {
-            // playerPrefs.moveSpeed = upgradeManager.GetUpgradeData(DroneUpgrade.DroneUpgradeType.MoveSpeed);
-            // playerPrefs.rotateSpeed = upgradeManager.GetUpgradeData(DroneUpgrade.DroneUpgradeType.RotateSpeed);
+            playerPrefs.moveSpeed = upgradeManager.GetUpgradeData(DroneUpgrade.DroneUpgradeType.MoveSpeed);
+            playerPrefs.rotateSpeed = upgradeManager.GetUpgradeData(DroneUpgrade.DroneUpgradeType.RotateSpeed);
 
             _motherShipStation = ds;
             droneStationTransform = ds.transform;
