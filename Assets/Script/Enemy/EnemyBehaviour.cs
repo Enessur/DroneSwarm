@@ -1,7 +1,7 @@
 using Script;
 using UnityEngine;
 using Random = UnityEngine.Random;
-
+using PlayerPrefs = Upgrade.PlayerPrefs;
 public class EnemyBehaviour : MonoBehaviour
 {
     public enum TaskCycleEnemy
@@ -15,6 +15,7 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] protected TaskCycleEnemy taskCycleEnemy;
     [SerializeField] private float xMin, yMin, xMax, yMax, zMin, zMax;
     [SerializeField] private float startWaitTime = 1f;
+    [SerializeField] private PlayerPrefs playerPrefs;
     [SerializeField]  private HealthBar healthBar;
     
    
@@ -126,7 +127,9 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void TakeDamage()
     {
-        m_enemyDataInstance.health -= 5;
+        
+        m_enemyDataInstance.health -= playerPrefs.damage;
+        Debug.Log(playerPrefs.damage);
         healthBar.UpdateHealthBar(m_enemyDataInstance.maxHealth, m_enemyDataInstance.health);
         if (m_enemyDataInstance.health < 1)
         {

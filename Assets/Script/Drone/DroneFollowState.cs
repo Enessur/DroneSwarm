@@ -17,7 +17,7 @@ namespace Drone
                 if (droneAI.timer >= droneAI.data.instance)
                 { 
                     droneAI.SendCollectables();
-                    droneAI._isStorageFull = false;
+                    droneAI.isStorageFull = false;
                     droneAI.Stored = 0;
                     droneAI.timer = 0f;
                 }

@@ -10,30 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4fb12a8029f93a94db4961a4b20bf7c2, type: 3}
-  m_Name: RotateSpeedUpgrade
+  m_Name: DamageUpgdare
   m_EditorClassIdentifier: 
-  id: RotateSpeed
+  id: Damage
   level: 0
   currency: {fileID: 11400000, guid: 3b39c45fdbad2df40867fe6dcb1f094c, type: 2}
-  droneUpgradeType: 1
+  droneUpgradeType: 2
   upgrades:
-  - cost: 100
-    value: 180
-  - cost: 150
-    value: 190
-  - cost: 300
-    value: 200
-  - cost: 550
-    value: 500
-  - cost: 1000
-    value: 250
-  - cost: 1500
-    value: 360
-  - cost: 2500
-    value: 390
-  - cost: 3200
-    value: 420
-  - cost: 4500
-    value: 460
-  - cost: 6000
-    value: 500
+  - cost: 30
+    value: 7
+  - cost: 60
+    value: 30000
+  - cost: 80
+    value: 30
+  - cost: 2000
+    value: 60

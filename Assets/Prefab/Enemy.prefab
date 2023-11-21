@@ -184,6 +184,7 @@ MonoBehaviour:
   zMin: 0
   zMax: 0
   startWaitTime: 1
+  playerPrefs: {fileID: 6109201974862212112, guid: 2c2acb011be6cc04e957f450fedbf490, type: 3}
   healthBar: {fileID: 7039120835125704800}
   patrolBorders: {fileID: 830778855372228363}
   moveSpot: {fileID: 830778856726784107}

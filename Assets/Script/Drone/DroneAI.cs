@@ -43,12 +43,13 @@ namespace Drone
         private StateMachine.StateMachine _stateMachine;
 
         [FormerlySerializedAs("_isCollecting")] [SerializeField]
-        public bool _isStorageFull;
+        public bool isStorageFull;
 
         public void Init(DroneStation ds, UpgradeManager upgradeManager)
         {
-            playerPrefs.moveSpeed = upgradeManager.GetUpgradeData(DroneUpgrade.DroneUpgradeType.MoveSpeed);
-            playerPrefs.rotateSpeed = upgradeManager.GetUpgradeData(DroneUpgrade.DroneUpgradeType.RotateSpeed);
+            // playerPrefs.moveSpeed = upgradeManager.GetUpgradeData(DroneUpgrade.DroneUpgradeType.MoveSpeed);
+            // playerPrefs.rotateSpeed = upgradeManager.GetUpgradeData(DroneUpgrade.DroneUpgradeType.RotateSpeed);
+
             _motherShipStation = ds;
             droneStationTransform = ds.transform;
             _stateMachine = new StateMachine.StateMachine();
@@ -72,14 +73,14 @@ namespace Drone
                                                 droneStationTransform.position) <
                                             item.patrolRange;
 
-            Func<bool> HasCollectable() => () => collectable != null && !_isStorageFull &&
+            Func<bool> HasCollectable() => () => collectable != null && !isStorageFull &&
                                                  Vector3.Distance(collectable.transform.position,
                                                      droneStationTransform.position)
                                                  < item.patrolRange;
 
             Func<bool> HasNoTarget() => () => enemyTarget == null;
 
-            Func<bool> HasNoCollectable() => () => (collectable == null || _isStorageFull) || Vector3.Distance(
+            Func<bool> HasNoCollectable() => () => (collectable == null || isStorageFull) || Vector3.Distance(
                     collectable.transform.position,
                     droneStationTransform.position)
                 > item.patrolRange;
@@ -101,6 +102,10 @@ namespace Drone
                     break;
                 case DroneUpgrade.DroneUpgradeType.RotateSpeed:
                     playerPrefs.rotateSpeed = value;
+                    break;
+                case  DroneUpgrade.DroneUpgradeType.Damage:
+                    playerPrefs.damage = value;
+                    Debug.Log(playerPrefs.damage);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
@@ -184,7 +189,7 @@ namespace Drone
             Stored++;
             if (Stored >= storageCapacity)
             {
-                _isStorageFull = true;
+                isStorageFull = true;
             }
         }
 

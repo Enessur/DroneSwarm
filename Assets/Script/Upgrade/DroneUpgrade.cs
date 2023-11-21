@@ -10,6 +10,7 @@ namespace Upgrade
         {
             MoveSpeed,
             RotateSpeed,
+            Damage
         }
 
         public DroneUpgradeType droneUpgradeType;

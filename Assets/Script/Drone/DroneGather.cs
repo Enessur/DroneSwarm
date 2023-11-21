@@ -9,7 +9,7 @@ public class DroneGather : IState
     public void Tick(DroneAI droneAI)
     {
         droneAI.timer += Time.deltaTime;
-        if (droneAI._isStorageFull != true)
+        if (droneAI.isStorageFull != true)
         {
             if (droneAI.timer >= droneAI.collectTimer)
             {

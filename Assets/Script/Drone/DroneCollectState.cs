@@ -27,7 +27,7 @@ namespace Drone
             else
             {
                 droneAI.timer += Time.deltaTime;
-                if (droneAI._isStorageFull != true)
+                if (droneAI.isStorageFull != true)
                 {
                     droneAI.rb.velocity = droneAI.transform.forward * 0;
                     if (droneAI.timer >= droneAI.collectTimer)
